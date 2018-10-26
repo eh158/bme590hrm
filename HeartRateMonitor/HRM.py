@@ -117,11 +117,7 @@ def get_interval(interval=None):
                     raise IOError
             except IOError:
                 print('Please provide a number for the interval.')
-    if interval is int or interval is float:
-        if (float(interval) <= 0):
-            warn('Interval is negative, default interval will be used instead')
-            return default_interval
-        return interval
+    interval = str(interval)
     if interval.isdigit():
         if (float(interval) <= 0):
             warn('Interval is negative, default interval will be used instead')
@@ -136,7 +132,7 @@ if __name__ == "__main__":
     # read in data from CSV file
     my_file = get_file('test1.csv')
     # read in user input for interval
-    interval = get_interval('200')
+    interval = get_interval(200)
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
     print(metrics)
