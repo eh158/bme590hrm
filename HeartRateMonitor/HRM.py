@@ -17,7 +17,7 @@ def fill_metrics(metrics, data, interval):
 
 def find_duration(metrics, data):
     time_array = data[0]
-    time = float(time_array[len(time_array)-1]) / float(60)
+    time = float(time_array[len(time_array) - 1]) / float(60)
     metrics['duration'] = time
 
 
@@ -41,14 +41,14 @@ def find_voltage_extremes(metrics, data):
 
 
 def find_mean_hr_bpm(metrics, data, time_interval):
-    if time_interval > data[0][len(data[0])-1]:
-        time_interval = data[0][len(data[0])-1]
+    if time_interval > data[0][len(data[0]) - 1]:
+        time_interval = data[0][len(data[0]) - 1]
     indexes = find_peaks(data[1])
     beats = 0
     for i in indexes:
         if data[0][i] <= time_interval:
             beats += 1
-    mean_hr = float(beats/time_interval*60)
+    mean_hr = float(beats / time_interval * 60)
     metrics['mean_hr_bpm'] = mean_hr
 
 
@@ -83,7 +83,7 @@ def gather_inputs(my_file, interval):
     return input
 
 
-def get_file(my_file = None):
+def get_file(my_file=None):
     if my_file == None:
         while True:
             try:
@@ -102,14 +102,14 @@ def get_file(my_file = None):
         sys.exit('File not a csv file')
 
 
-def get_interval(interval = None):
+def get_interval(interval=None):
     default_interval = 20
     if interval == None:
         while True:
             try:
                 interval = input('Please specify minute interval')
                 if interval.isdigit():
-                    if(float(interval) <= 0):
+                    if (float(interval) <= 0):
                         print('Please specify a positive interval')
                     else:
                         break
