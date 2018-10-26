@@ -7,29 +7,29 @@ def find_beats(metrics, data):
     times = []
     for i in indexes:
         times.append(data[i])
-    metrics['beats']=len(times)
+    metrics['beats'] = len(times)
 
 
 def find_num_beats(metrics, data):
     indexes = find_peaks(data[1])
-    metrics['num_beats']=len(indexes)
+    metrics['num_beats'] = len(indexes)
 
 
 def find_voltage_extremes(metrics, data):
     min_v = min(data[1])
     max_v = max(data[1])
-    metrics['voltage_extremes']=(min_v,max_v)
+    metrics['voltage_extremes'] = (min_v, max_v)
 
 
-def find_mean_hr_bpm(metrics, data ,*args):
-    if len(args)==0:
+def find_mean_hr_bpm(metrics, data, *args):
+    if len(args) == 0:
         interval = data[0][len(data[0])]
     else:
         interval = args
     indexes = find_peaks(data[1])
     beats = 0
     for i in indexes:
-        if data[0][i]<=interval:
+        if data[0][i] <= interval:
             beats += 1
     mean_hr = float(beats)/float(interval)
     metrics['mean_hr_bpm'] = mean_hr
@@ -56,5 +56,5 @@ if __name__ == "__main__":
     # read in data from CSV file
     my_file = "test1.csv"
     data = process_file(my_file)
-    peak_indices = find_peaks(data[0],data[1])
+    peak_indices = find_peaks(data[0], data[1])
     print(peak_indices)
