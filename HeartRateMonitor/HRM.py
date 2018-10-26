@@ -38,17 +38,15 @@ def find_voltage_extremes(metrics, data):
     metrics['voltage_extremes'] = (min_v, max_v)
 
 
-def find_mean_hr_bpm(metrics, data, *args):
-    if len(args) == 0:
-        interval = data[0][len(data[0])-1]
-    else:
-        interval = args
+def find_mean_hr_bpm(metrics, data, time_interval):
+    if time_interval > data[0][len(data[0])-1]:
+        time_interval = data[0][len(data[0])-1]
     indexes = find_peaks(data[1])
     beats = 0
     for i in indexes:
-        if data[0][i] <= interval[0]:
+        if data[0][i] <= time_interval:
             beats += 1
-    mean_hr = float(beats/interval[0]*60)
+    mean_hr = float(beats/time_interval*60)
     metrics['mean_hr_bpm'] = mean_hr
 
 
@@ -71,7 +69,7 @@ def process_file(filename):
 
 def gather_inputs(my_file, interval):
     data = process_file(my_file)
-    if(interval<0):
+    if(interval < 0):
         interval = 20
     metrics = {}
     input = []
@@ -100,7 +98,7 @@ if __name__ == "__main__":
         try:
             interval = input('Please specify minute interval')
             if interval.isdigit():
-                if(float(interval)<=0):
+                if(float(interval) <= 0):
                     print('Please specify a positive interval')
                 else:
                     break
@@ -109,5 +107,5 @@ if __name__ == "__main__":
         except IOError:
             print('Please provide a number for the interval.')
     u_input = gather_inputs(my_file, float(interval))
-    metrics = fill_metrics(u_input[0],u_input[1],u_input[2])
+    metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
     print(metrics)
