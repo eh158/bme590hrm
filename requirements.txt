@@ -1,0 +1,6 @@
+numpy
+peakutils
+ipython
+pytest
+pytest-cov
+pytest-pep8
