@@ -2,19 +2,19 @@ import numpy as np
 import peakutils
 
 
-def find_beats():
+def find_beats(metrics, data):
     return 0
 
 
-def find_num_beats():
+def find_num_beats(metrics, data):
     return 0
 
 
-def find_voltage_extremes():
+def find_voltage_extremes(metrics, data):
     return 0
 
 
-def find_mean_hr_bpm():
+def find_mean_hr_bpm(interval, metrics, data):
     return 0
 
 
