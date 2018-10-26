@@ -84,7 +84,7 @@ def gather_inputs(my_file, interval):
 
 
 def get_file(my_file=None):
-    if my_file == None:
+    if my_file is None:
         while True:
             try:
                 my_file = input('Please specify the filename.\n')
@@ -104,7 +104,7 @@ def get_file(my_file=None):
 
 def get_interval(interval=None):
     default_interval = 20
-    if interval == None:
+    if interval is None:
         while True:
             try:
                 interval = input('Please specify minute interval')
@@ -117,6 +117,11 @@ def get_interval(interval=None):
                     raise IOError
             except IOError:
                 print('Please provide a number for the interval.')
+    if interval is int or interval is float:
+        if (float(interval) <= 0):
+            warn('Interval is negative, default interval will be used instead')
+            return default_interval
+        return interval
     if interval.isdigit():
         if (float(interval) <= 0):
             warn('Interval is negative, default interval will be used instead')
