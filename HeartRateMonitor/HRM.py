@@ -122,7 +122,7 @@ def get_file(my_file=None):
 def process_output(metrics,filename):
     save_file = filename.replace('.csv','')
     save_file = save_file+'.json'
-    with open('data.json', 'w') as outfile:
+    with open(save_file, 'w') as outfile:
         json.dump(metrics, outfile)
     return outfile
 
@@ -158,9 +158,9 @@ def get_interval(interval=None):
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file('test1.csv')
+    my_file = get_file(None)
     # read in user input for interval
-    interval = get_interval('.2.3.')
+    interval = get_interval(None)
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
-    print(metrics)
+    process_output(metrics,my_file)
