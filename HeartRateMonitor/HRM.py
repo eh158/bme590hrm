@@ -119,9 +119,9 @@ def get_file(my_file=None):
         sys.exit('Filename not a string')
 
 
-def process_output(metrics,filename):
-    save_file = filename.replace('.csv','')
-    save_file = save_file+'.json'
+def process_output(metrics, filename):
+    save_file = filename.replace('.csv', '')
+    save_file = save_file + '.json'
     with open(save_file, 'w') as outfile:
         json.dump(metrics, outfile)
     return outfile
@@ -163,4 +163,4 @@ if __name__ == "__main__":
     interval = get_interval(None)
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
-    process_output(metrics,my_file)
+    process_output(metrics, my_file)
