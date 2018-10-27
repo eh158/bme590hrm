@@ -122,7 +122,7 @@ def get_interval(interval=None):
         if (float(interval) <= 0):
             warn('Interval is negative, default interval will be used instead')
             return default_interval
-        return interval
+        return float(interval)
     else:
         warn('Interval invalid, default interval will be used instead')
         return default_interval
