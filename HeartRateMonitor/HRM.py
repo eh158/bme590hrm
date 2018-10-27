@@ -17,8 +17,18 @@ def fill_metrics(metrics, data, interval):
 
 def find_duration(metrics, data):
     time_array = data[0]
-    time = float(time_array[len(time_array) - 1]) / float(60)
-    metrics['duration'] = time
+    if (len(time_array) == 0):
+        metrics['duration'] = 0
+        warn('No time vector detected, duration set to 0')
+        return metrics
+    max_time = max(time_array)
+    min_time = min(time_array)
+    metrics['duration'] = float(max_time - min_time) / float(60)
+    if max_time < 0:
+        warn('Negative time value detected, duration set to difference')
+    if max_time != time_array[len(time_array) - 1]:
+        warn('Max time value not last value, check time vector')
+    return metrics
 
 
 def find_beats(metrics, data):
@@ -27,17 +37,20 @@ def find_beats(metrics, data):
     for i in indexes:
         times.append(data[0][i])
     metrics['beats'] = times
+    return metrics
 
 
 def find_num_beats(metrics, data):
     indexes = find_peaks(data[1])
     metrics['num_beats'] = len(indexes)
+    return metrics
 
 
 def find_voltage_extremes(metrics, data):
     min_v = min(data[1])
     max_v = max(data[1])
     metrics['voltage_extremes'] = (min_v, max_v)
+    return metrics
 
 
 def find_mean_hr_bpm(metrics, data, time_interval):
@@ -50,6 +63,7 @@ def find_mean_hr_bpm(metrics, data, time_interval):
             beats += 1
     mean_hr = float(beats / time_interval * 60)
     metrics['mean_hr_bpm'] = mean_hr
+    return metrics
 
 
 def find_peaks(voltages):
@@ -59,7 +73,7 @@ def find_peaks(voltages):
 
 
 def process_file(filename):
-    csv_file = np.genfromtxt(my_file, delimiter=",")
+    csv_file = np.genfromtxt(filename, delimiter=",")
     # add checker for correct formatting, and raise exception otherwise
     if csv_file.shape[1] > 2:
         warn("Check if data is time and voltage columnwise")
@@ -96,10 +110,21 @@ def get_file(my_file=None):
                     print('File not found')
             except IOError:
                 print('Please specify a csv file.')
-    if ".csv" in my_file:
-        return my_file
+    if type(my_file) is str:
+        if ".csv" in my_file:
+            return my_file
+        else:
+            sys.exit('File not a csv file')
     else:
-        sys.exit('File not a csv file')
+        sys.exit('Filename not a string')
+
+
+def process_output(metrics, filename):
+    save_file = filename.replace('.csv', '')
+    save_file = save_file + '.json'
+    with open(save_file, 'w') as outfile:
+        json.dump(metrics, outfile)
+    return outfile
 
 
 def get_interval(interval=None):
@@ -119,6 +144,9 @@ def get_interval(interval=None):
                 print('Please provide a number for the interval.')
     check = str(interval).replace('.', '')
     if check.isdigit():
+        if (str(interval).find(".") != str(interval).rfind(".")):
+            warn('Interval invalid, default interval will be used instead')
+            return default_interval
         if (float(interval) <= 0):
             warn('Interval is negative, default interval will be used instead')
             return default_interval
@@ -130,10 +158,9 @@ def get_interval(interval=None):
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file('test1.csv')
+    my_file = get_file(None)
     # read in user input for interval
-    interval = get_interval('2.3')
+    interval = get_interval(None)
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
-    print(find_peaks([-2, 1, -2, -2, 0, -2]))
-    print(metrics)
+    process_output(metrics, my_file)
