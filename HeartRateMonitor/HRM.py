@@ -117,8 +117,7 @@ def get_interval(interval=None):
                     raise IOError
             except IOError:
                 print('Please provide a number for the interval.')
-    interval = str(interval)
-    check = interval.replace('.','')
+    check = str(interval).replace('.', '')
     if check.isdigit():
         if (float(interval) <= 0):
             warn('Interval is negative, default interval will be used instead')
@@ -136,4 +135,5 @@ if __name__ == "__main__":
     interval = get_interval('2.3')
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
+    print(find_peaks([-2, 1, -2, -2, 0, -2]))
     print(metrics)
