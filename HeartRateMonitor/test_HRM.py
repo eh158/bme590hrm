@@ -20,7 +20,10 @@ def test_find_peaks(given, expected):
     (2.3, 2.3),
     ('2.3', 2.3),
     ('a', 20),
-    ('helloooooo', 20)
+    ('helloooooo', 20),
+    ('2 3', 20),
+    ('.23.', 20),
+    ('.2.2.25.5.5.5.5.5.5',20)
 ])
 def test_get_interval(agiven, aexpected):
     assert get_interval(agiven) == aexpected

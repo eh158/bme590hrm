@@ -119,6 +119,9 @@ def get_interval(interval=None):
                 print('Please provide a number for the interval.')
     check = str(interval).replace('.', '')
     if check.isdigit():
+        if(str(interval).find(".") != str(interval).rfind(".")):
+            warn('Interval invalid, default interval will be used instead')
+            return default_interval
         if (float(interval) <= 0):
             warn('Interval is negative, default interval will be used instead')
             return default_interval
@@ -132,8 +135,7 @@ if __name__ == "__main__":
     # read in data from CSV file
     my_file = get_file('test1.csv')
     # read in user input for interval
-    interval = get_interval('2.3')
+    interval = get_interval('.2.3.')
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
-    print(find_peaks([-2, 1, -2, -2, 0, -2]))
     print(metrics)
