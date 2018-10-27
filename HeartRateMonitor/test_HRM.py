@@ -60,3 +60,10 @@ def test_get_file(given, expected):
 ])
 def test_find_duration(metrics, data, expected):
     assert find_duration(metrics, data) == expected
+
+
+@pytest.mark.parametrize("metrics, data, expected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1 / 60, 3 / 60]})
+])
+def test_find_beats(metrics, data, expected):
+    assert find_beats(metrics, data) == expected
