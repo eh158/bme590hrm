@@ -96,7 +96,7 @@ def get_file(my_file=None):
                     print('File not found')
             except IOError:
                 print('Please specify a csv file.')
-    if my_file is str:
+    if type(my_file) is str:
         if ".csv" in my_file:
             return my_file
         else:
@@ -122,7 +122,7 @@ def get_interval(interval=None):
                 print('Please provide a number for the interval.')
     check = str(interval).replace('.', '')
     if check.isdigit():
-        if(str(interval).find(".") != str(interval).rfind(".")):
+        if (str(interval).find(".") != str(interval).rfind(".")):
             warn('Interval invalid, default interval will be used instead')
             return default_interval
         if (float(interval) <= 0):
@@ -136,7 +136,7 @@ def get_interval(interval=None):
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file(123)
+    my_file = get_file('test1.csv')
     # read in user input for interval
     interval = get_interval('.2.3.')
     u_input = gather_inputs(my_file, float(interval))

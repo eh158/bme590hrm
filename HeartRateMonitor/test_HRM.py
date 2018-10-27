@@ -33,9 +33,9 @@ def test_get_interval(agiven, aexpected):
     ('test', 1),
     ('test.csv', 'test.csv'),
     ('test.cvs', 1),
-    ('test.vsc',1),
-    (123,1),
-    ('testcsv',1)
+    ('test.vsc', 1),
+    (123, 1),
+    ('testcsv', 1)
 ])
 def test_get_file(given, expected):
     assert get_file(given) == expected
