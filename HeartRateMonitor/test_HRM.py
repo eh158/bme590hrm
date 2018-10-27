@@ -50,7 +50,7 @@ def test_get_file(given, expected):
 
 
 @pytest.mark.parametrize("metrics, data, expected", [
-    ({},[[0,1,2,3,4,5],[1,1,1,1,1]],5)
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1]], {'duration': 5})
 ])
-def test_find_duration(metrics,data, expected):
-    assert find_duration(metrics,data) == expected
+def test_find_duration(metrics, data, expected):
+    assert find_duration(metrics, data) == expected
