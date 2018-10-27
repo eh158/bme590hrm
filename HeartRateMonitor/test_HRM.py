@@ -46,4 +46,4 @@ def test_get_file_exit(given):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         get_file(given)
     assert pytest_wrapped_e.type == SystemExit
-    assert pytest_wrapped_e.value.code == 42
+    assert pytest_wrapped_e.value.code == 1
