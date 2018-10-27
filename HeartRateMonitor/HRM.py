@@ -96,10 +96,13 @@ def get_file(my_file=None):
                     print('File not found')
             except IOError:
                 print('Please specify a csv file.')
-    if ".csv" in my_file:
-        return my_file
+    if my_file is str:
+        if ".csv" in my_file:
+            return my_file
+        else:
+            sys.exit('File not a csv file')
     else:
-        sys.exit('File not a csv file')
+        sys.exit('Filename not a string')
 
 
 def get_interval(interval=None):
@@ -133,7 +136,7 @@ def get_interval(interval=None):
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file('test1.csv')
+    my_file = get_file(123)
     # read in user input for interval
     interval = get_interval('.2.3.')
     u_input = gather_inputs(my_file, float(interval))

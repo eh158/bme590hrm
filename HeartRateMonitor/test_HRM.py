@@ -23,7 +23,19 @@ def test_find_peaks(given, expected):
     ('helloooooo', 20),
     ('2 3', 20),
     ('.23.', 20),
-    ('.2.2.25.5.5.5.5.5.5',20)
+    ('.2.2.25.5.5.5.5.5.5', 20)
 ])
 def test_get_interval(agiven, aexpected):
     assert get_interval(agiven) == aexpected
+
+
+@pytest.mark.parametrize("given,expected", [
+    ('test', 1),
+    ('test.csv', 'test.csv'),
+    ('test.cvs', 1),
+    ('test.vsc',1),
+    (123,1),
+    ('testcsv',1)
+])
+def test_get_file(given, expected):
+    assert get_file(given) == expected
