@@ -9,7 +9,9 @@ from HRM import *
 ])
 def test_find_peaks(given, expected):
     assert find_peaks(given) == expected
-    assert find_peaks([-2, 1, -2, -2, 0, -2]) == [1, 4]
+    assert find_peaks([-2, 1, -2, -2, 0, -2])[0] == 1
+    assert find_peaks([-2, 1, -2, -2, 0, -2])[1] == 4
+
 
 @pytest.mark.parametrize("agiven,aexpected", [
     (20, 20),
