@@ -17,8 +17,17 @@ def fill_metrics(metrics, data, interval):
 
 def find_duration(metrics, data):
     time_array = data[0]
-    time = float(time_array[len(time_array) - 1]) / float(60)
-    metrics['duration'] = time
+    if(len(time_array)==0):
+        metrics['duration'] = 0
+        warn('No time vector detected, duration set to 0')
+        return metrics
+    max_time = max(time_array)
+    min_time = min(time_array)
+    metrics['duration'] = float(max_time - min_time)/float(60)
+    if max_time<0:
+        warn('Negative time value detected, duration set to difference')
+    if max_time != time_array[len(time_array)-1]:
+        warn('Max time value not last value, check time vector')
     return metrics
 
 
