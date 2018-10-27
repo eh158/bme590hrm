@@ -30,12 +30,20 @@ def test_get_interval(agiven, aexpected):
 
 
 @pytest.mark.parametrize("given,expected", [
-    ('test', 1),
     ('test.csv', 'test.csv'),
-    ('test.cvs', 1),
-    ('test.vsc', 1),
-    (123, 1),
-    ('testcsv', 1)
 ])
 def test_get_file(given, expected):
     assert get_file(given) == expected
+
+
+@pytest.mark.parametrize("given", [
+    ('test.cvs'),
+    ('test.vsc'),
+    (123),
+    ('testcsv'),
+])
+def test_get_file_exit(given):
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        get_file(given)
+    assert pytest_wrapped_e.type == SystemExit
+    assert pytest_wrapped_e.value.code == 42
