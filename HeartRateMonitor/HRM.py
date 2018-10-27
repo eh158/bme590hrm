@@ -119,6 +119,14 @@ def get_file(my_file=None):
         sys.exit('Filename not a string')
 
 
+def process_output(metrics,filename):
+    save_file = filename.replace('.csv','')
+    save_file = save_file+'.json'
+    with open('data.json', 'w') as outfile:
+        json.dump(metrics, outfile)
+    return outfile
+
+
 def get_interval(interval=None):
     default_interval = 20
     if interval is None:
