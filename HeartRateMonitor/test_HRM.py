@@ -36,14 +36,21 @@ def test_get_file(given, expected):
     assert get_file(given) == expected
 
 
-@pytest.mark.parametrize("given", [
-    ('test.cvs'),
-    ('test.vsc'),
-    (123),
-    ('testcsv'),
+# @pytest.mark.parametrize("given", [
+#     ('test.cvs'),
+#     ('test.vsc'),
+#     (123),
+#     ('testcsv'),
+# ])
+# def test_get_file_exit(given):
+#     with pytest.raises(SystemExit) as pytest_wrapped_e:
+#         get_file(given)
+#     assert pytest_wrapped_e.type == SystemExit
+#     assert pytest_wrapped_e.value.code == 1
+
+
+@pytest.mark.parametrize("metrics, data, expected", [
+    ({},[[0,1,2,3,4,5],[1,1,1,1,1]],5)
 ])
-def test_get_file_exit(given):
-    with pytest.raises(SystemExit) as pytest_wrapped_e:
-        get_file(given)
-    assert pytest_wrapped_e.type == SystemExit
-    assert pytest_wrapped_e.value.code == 1
+def test_find_duration(metrics,data, expected):
+    assert find_duration(metrics,data) == expected

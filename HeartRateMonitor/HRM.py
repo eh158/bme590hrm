@@ -19,6 +19,7 @@ def find_duration(metrics, data):
     time_array = data[0]
     time = float(time_array[len(time_array) - 1]) / float(60)
     metrics['duration'] = time
+    return metrics
 
 
 def find_beats(metrics, data):
@@ -27,17 +28,20 @@ def find_beats(metrics, data):
     for i in indexes:
         times.append(data[0][i])
     metrics['beats'] = times
+    return metrics
 
 
 def find_num_beats(metrics, data):
     indexes = find_peaks(data[1])
     metrics['num_beats'] = len(indexes)
+    return metrics
 
 
 def find_voltage_extremes(metrics, data):
     min_v = min(data[1])
     max_v = max(data[1])
     metrics['voltage_extremes'] = (min_v, max_v)
+    return metrics
 
 
 def find_mean_hr_bpm(metrics, data, time_interval):
@@ -50,6 +54,7 @@ def find_mean_hr_bpm(metrics, data, time_interval):
             beats += 1
     mean_hr = float(beats / time_interval * 60)
     metrics['mean_hr_bpm'] = mean_hr
+    return metrics
 
 
 def find_peaks(voltages):
@@ -59,7 +64,7 @@ def find_peaks(voltages):
 
 
 def process_file(filename):
-    csv_file = np.genfromtxt(my_file, delimiter=",")
+    csv_file = np.genfromtxt(filename, delimiter=",")
     # add checker for correct formatting, and raise exception otherwise
     if csv_file.shape[1] > 2:
         warn("Check if data is time and voltage columnwise")
