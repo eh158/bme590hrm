@@ -89,6 +89,8 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
         assert str(excinfo.value) == 'File not found'
     except IOError:
         assert str(excinfo.value) == 'Please specify a csv file.'
+    except ValueError:
+        assert detected is True
     else:
         with open(jn, 'r') as f:
             out = json.load(f)
