@@ -134,7 +134,7 @@ def process_output(metrics, filename):
         print('Please specify a csv file.')
     except OSError:
         print('File not found')
-    if len(list(metrics.keys()) == 0):
+    if (len(list(metrics.keys())) == 0):
         warn('No data was processed')
     save_file = filename.replace('.csv', '')
     save_file = save_file + '.json'
