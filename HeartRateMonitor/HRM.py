@@ -3,6 +3,7 @@ import peakutils
 import json
 import os.path
 import sys
+import csv
 from warnings import warn
 
 
@@ -47,6 +48,10 @@ def find_num_beats(metrics, data):
 
 
 def find_voltage_extremes(metrics, data):
+    if (len(data[1]) == 0):
+        metrics['voltage_extremes'] = ()
+        warn('No voltage data available')
+        return metrics
     min_v = min(data[1])
     max_v = max(data[1])
     metrics['voltage_extremes'] = (min_v, max_v)
@@ -120,6 +125,22 @@ def get_file(my_file=None):
 
 
 def process_output(metrics, filename):
+    if (isinstance(filename, str) is False):
+        raise ValueError
+    try:
+        if os.path.isfile(filename):
+            if ".csv" in filename:
+                pass
+            else:
+                raise IOError
+        else:
+            raise OSError
+    except IOError:
+        print('Please specify a csv file.')
+    except OSError:
+        print('File not found')
+    if (len(list(metrics.keys())) == 0):
+        warn('No data was processed')
     save_file = filename.replace('.csv', '')
     save_file = save_file + '.json'
     with open(save_file, 'w') as outfile:
@@ -158,9 +179,18 @@ def get_interval(interval=None):
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file(None)
+    my_file = get_file('test0.csv')
     # read in user input for interval
-    interval = get_interval(None)
+    interval = get_interval('20')
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
     process_output(metrics, my_file)
+    a = process_output({'beats': [1]}, 'test.csv')
+    # filename = 't.csv'
+    # expected = [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]]
+    # with open(filename, 'w') as csvfile:
+    #     filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
+    # quoting=csv.QUOTE_MINIMAL)
+    #     for i in range(len(expected[0])):
+    #         filewriter.writerow([expected[0][i],expected[1][i]])
+    # b = gather_inputs(filename, 20)
