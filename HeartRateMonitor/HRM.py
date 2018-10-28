@@ -164,3 +164,7 @@ if __name__ == "__main__":
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
     process_output(metrics, my_file)
+    a = process_output({'beats': [1]}, 'test.csv')
+    f = open('test.csv', 'r')
+    print(a)
+    print(f)
