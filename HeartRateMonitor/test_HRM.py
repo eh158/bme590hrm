@@ -71,11 +71,10 @@ def test_find_beats(metrics, data, expected):
 
 
 @pytest.mark.parametrize("metrics, filename, expected", [
-    ({'beats': [1]}, 'test.csv', {'beats': [1]})
-
+    ({'beats': [1]}, 'test.csv', TRUE)
 ])
 def test_process_output(metrics, filename, expected):
-    assert json.load(open(process_output(metrics, filename), 'r')) == expected
+    assert os.path.isfile((process_output(metrics, filename))) == expected
 
 
 @pytest.mark.parametrize("my_file, interval, expected", [
@@ -88,8 +87,8 @@ def test_gather_inputs(my_file, interval, expected):
 @pytest.mark.parametrize("metrics, data, interval, expected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], 2.5, {'mean_hr_bpm': 24.0})
 ])
-def test_find_mean_hr(metrics, data, interval, expected):
-    assert find_mean_hr(metrics, data, interval) == expected
+def test_find_mean_hr_bpm(metrics, data, interval, expected):
+    assert find_mean_hr_bpm(metrics, data, interval) == expected
 
 # @pytest.mark.parametrize("metrics, data, expected", [
 #     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
