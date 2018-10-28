@@ -81,6 +81,9 @@ def find_mean_hr_bpm(metrics, data, time_interval):
 
 
 def find_peaks(voltages):
+    invalids = [x for x in voltages if isinstance(x, str)]
+    if len(invalids) > 0:
+        raise ValueError('String not expected in data')
     cb = np.array(voltages)
     indexes = peakutils.indexes(cb)
     return indexes
