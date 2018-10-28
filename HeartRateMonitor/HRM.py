@@ -125,17 +125,16 @@ def get_file(my_file=None):
 
 
 def process_output(metrics, filename):
-    while True:
-        try:
-            if ".csv" in filename:
-                break
-        except IOError:
-            print('Please specify a csv file.')
-        except OSError:
-            print('File not found')
+    try:
+        if ".csv" in filename:
+            break
+    except IOError:
+        print('Please specify a csv file.')
+    except OSError:
+        print('File not found')
     if len(list(metrics.keys()) == 0):
         warn('No data was processed')
-    save_file = filename.replace('.csv', '')
+save_file = filename.replace('.csv', '')
     save_file = save_file + '.json'
     with open(save_file, 'w') as outfile:
         json.dump(metrics, outfile)
