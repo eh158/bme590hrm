@@ -77,7 +77,6 @@ def test_find_beats(metrics, data, expected):
     ({'beats': [1]}, 'test.csv', 'test.json', {'beats': [1]}, True)
 ])
 def test_process_output(metrics, filename, jsonname, expected, detected):
-    exception = False
     try:
         process_output(metrics, filename)
         with open(jsonname, 'r') as f:
@@ -87,6 +86,7 @@ def test_process_output(metrics, filename, jsonname, expected, detected):
     except IOError:
         exception = True
     else:
+        exception = False
         assert out == expected
     finally:
         assert exception == detected
