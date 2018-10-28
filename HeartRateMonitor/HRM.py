@@ -127,7 +127,7 @@ def get_file(my_file=None):
 def process_output(metrics, filename):
     while True:
         try:
-            if ".csv" in my_file:
+            if ".csv" in filename:
                 break
         except IOError:
             print('Please specify a csv file.')
