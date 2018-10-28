@@ -124,7 +124,7 @@ def process_output(metrics, filename):
     save_file = save_file + '.json'
     with open(save_file, 'w') as outfile:
         json.dump(metrics, outfile)
-    return save_file
+    return outfile
 
 
 def get_interval(interval=None):
