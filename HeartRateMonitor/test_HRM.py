@@ -1,4 +1,5 @@
 import pytest
+import csv
 from HRM import *
 
 
@@ -84,6 +85,10 @@ def test_process_output(metrics, filename, jsonname, expected):
     ('test0.csv', [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]])
 ])
 def test_process_file(filename, expected):
+    with open(filename, 'wb') as csvfile:
+        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL))
+        for i in range(len(expected)):
+            filewriter.writerow([expected[0][i],expected[1][i]])
     assert process_file(filename) == expected
 
 
