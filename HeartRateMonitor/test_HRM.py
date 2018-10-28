@@ -82,11 +82,12 @@ def test_process_output(metrics, filename, jsonname, expected, detected):
         process_output(metrics, filename)
         with open(jsonname, 'r') as f:
             out = json.load(f)
-        assert out == expected
     except OSError:
         exception = True
     except IOError:
         exception = True
+    else:
+        assert out == expected
     finally:
         assert exception == detected
 
