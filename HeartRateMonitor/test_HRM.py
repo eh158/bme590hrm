@@ -146,3 +146,16 @@ def test_find_num_beats(metrics, data, expected):
 ])
 def test_fill_metrics(metrics, data, interval, expected):
     assert fill_metrics(metrics, data, interval) == expected
+
+
+@pytest.mark.parametrize("b, detected", [
+    (1, False),
+    (0, True)
+])
+def test_a(b, detected):
+    try:
+        a(b)
+    except:
+        assert detected is True
+    else:
+        assert detected is False

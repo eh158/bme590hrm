@@ -124,6 +124,16 @@ def get_file(my_file=None):
         sys.exit('Filename not a string')
 
 
+def a(b):
+    try:
+        if(b==1):
+            return 0
+        else:
+            raise IOError
+    except IOError:
+        print('Test')
+
+
 def process_output(metrics, filename):
     try:
         if os.path.isfile(filename):
