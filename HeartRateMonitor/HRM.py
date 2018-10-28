@@ -33,7 +33,7 @@ def find_duration(metrics, data):
 
 
 def find_beats(metrics, data):
-    invalids = [x for x in data[1] if isinstance(str, x)]
+    invalids = [x for x in data[1] if isinstance(x, str)]
     if len(invalids) > 0:
         raise ValueError('String not expected in data')
     indexes = find_peaks(data[1])
