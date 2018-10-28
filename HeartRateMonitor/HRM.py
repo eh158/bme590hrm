@@ -125,6 +125,8 @@ def get_file(my_file=None):
 
 
 def process_output(metrics, filename):
+    if (isinstance(filename, str) is False):
+        raise ValueError
     try:
         if os.path.isfile(filename):
             if ".csv" in filename:
