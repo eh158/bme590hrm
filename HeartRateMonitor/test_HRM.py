@@ -83,16 +83,16 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
         for i in range(5):
             filewriter.writerow([i, i%2])
     try:
-        process_output(metrics, filename)
+        with pytest.raises(Exception) as excinfo:
+            process_output(metrics, filename)
+    except OSError:
+        assert str(excinfo.value) == 'File not found'
+    except IOError:
+        assert str(excinfo.value) == 'Please specify a csv file.'
+    else:
         with open(jn, 'r') as f:
             out = json.load(f)
-    except OSError:
-        assert detected is True
-    except IOError:
-        assert detected is True
-    else:
         assert out == expected
-        assert detected is False
 
 
 @pytest.mark.parametrize("filename, expected", [
@@ -147,15 +147,3 @@ def test_find_num_beats(metrics, data, expected):
 def test_fill_metrics(metrics, data, interval, expected):
     assert fill_metrics(metrics, data, interval) == expected
 
-
-@pytest.mark.parametrize("b, detected", [
-    (1, False),
-    (0, True)
-])
-def test_a(b, detected):
-    try:
-        a(b)
-    except:
-        assert detected is True
-    else:
-        assert detected is False

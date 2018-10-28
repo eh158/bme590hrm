@@ -124,16 +124,6 @@ def get_file(my_file=None):
         sys.exit('Filename not a string')
 
 
-def a(b):
-    try:
-        if(b==1):
-            return 0
-        else:
-            raise IOError
-    except IOError:
-        print('Test')
-
-
 def process_output(metrics, filename):
     try:
         if os.path.isfile(filename):
@@ -187,7 +177,7 @@ def get_interval(interval=None):
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file('te.csv')
+    my_file = get_file('test0.csv')
     # read in user input for interval
     interval = get_interval('20')
     u_input = gather_inputs(my_file, float(interval))
