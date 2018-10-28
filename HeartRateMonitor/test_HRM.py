@@ -3,15 +3,23 @@ import csv
 from HRM import *
 
 
-@pytest.mark.parametrize("given,expected", [
-    ([0, 1, 0], 1),
-    ([-1, 1, -1], 1),
-    ([0, 0, 1, 0], 2)
+@pytest.mark.parametrize("given,expected, detected", [
+    ([0, 1, 0], 1, False),
+    ([-1, 1, -1], 1, False),
+    ([0, 0, 1, 0], 2, False),
+    ([0, 1, '0'], 1, True)
+    ([0, 'a', 0], 1, True)
 ])
-def test_find_peaks(given, expected):
-    assert find_peaks(given) == expected
-    assert find_peaks([-2, 1, -2, -2, 0, -2])[0] == 1
-    assert find_peaks([-2, 1, -2, -2, 0, -2])[1] == 4
+def test_find_peaks(given, expected, detected):
+    try:
+        assert find_peaks(given) == expected
+    except ValueError:
+        assert detected is True
+    else:
+        assert find_peaks(given) == expected
+        assert detected is False
+        # assert find_peaks([-2, 1, -2, -2, 0, -2])[0] == 1
+        # assert find_peaks([-2, 1, -2, -2, 0, -2])[1] == 4
 
 
 @pytest.mark.parametrize("agiven,aexpected", [
@@ -52,8 +60,8 @@ def test_get_file(given, expected):
 
 @pytest.mark.parametrize("metrics, data, expected, detected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1]], {'duration': 5 / 60}, False),
-    ({}, [[0, 1, 2, 3, 4, 5, 5], [1, 1, 1, 1, 1, 1]], {'duration': 5 / 60}, False),
-    ({}, [[0, 1, 2, 3, 4, 5, 6], [1, 1, 1, 1, 1, 1]], {'duration': 6 / 60}, False),
+    ({}, [[1, 2, 3, 4, 5, 5], [1, 1, 1, 1, 1]], {'duration': 5 / 60}, False),
+    ({}, [[1, 2, 3, 4, 5, 6], [1, 1, 1, 1, 1]], {'duration': 6 / 60}, False),
     ({}, [[0, 1, 2, 3, 4], [1, 1, 1, 1, 1]], {'duration': 4 / 60}, False),
     ({}, [[], []], {'duration': 0}, False),
     ({}, [[-1, 0], [1]], {'duration': 1 / 60}, False),
@@ -145,8 +153,9 @@ def test_find_voltage_extremes(metrics, data, expected):
     assert find_voltage_extremes(metrics, data) == expected
 
 
-@pytest.mark.parametrize("metrics, data, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'num_beats': 2})
+@pytest.mark.parametrize("metrics, data, expected, detected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'num_beats': 2}, False),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'num_beats': 2}, False)
 ])
 def test_find_num_beats(metrics, data, expected):
     assert find_num_beats(metrics, data) == expected

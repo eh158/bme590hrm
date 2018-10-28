@@ -48,6 +48,9 @@ def find_beats(metrics, data):
 
 
 def find_num_beats(metrics, data):
+    invalids = [x for x in data[1] if isinstance(x, str)]
+    if len(invalids) > 0:
+        raise ValueError('String not expected in data')
     indexes = find_peaks(data[1])
     metrics['num_beats'] = len(indexes)
     return metrics
