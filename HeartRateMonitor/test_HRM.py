@@ -74,6 +74,7 @@ def test_find_beats(metrics, data, expected):
     ({'beats': [1]}, 'test.csv', 'test.json', {'beats': [1]})
 ])
 def test_process_output(metrics, filename, jsonname, expected):
+    process_output(metrics,filename)
     with open(jsonname, 'r') as f:
             out = json.load(f)
     assert out == expected
