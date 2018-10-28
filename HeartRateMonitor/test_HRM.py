@@ -137,7 +137,11 @@ def test_process_file(filename, expected, detected):
 
 
 @pytest.mark.parametrize("my_file, interval, expected", [
+<<<<<<< HEAD
     ('test2.csv', 20, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 20])
+=======
+    ('test0.csv', 18, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 18])
+>>>>>>> 44beecd91668c51c0f4b8810199d0202edb95905
 ])
 def test_gather_inputs(my_file, interval, expected):
     # with open(my_file, 'w') as csvfile:
