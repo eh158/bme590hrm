@@ -165,6 +165,9 @@ if __name__ == "__main__":
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
     process_output(metrics, my_file)
     a = process_output({'beats': [1]}, 'test.csv')
-    f = open('test.csv', 'r')
-    print(a)
-    print(f)
+    # filename = 't.csv'
+    # expected = [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]]
+    # with open(filename, 'wb') as csvfile:
+    #     filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    #     for i in range(len(expected)):
+    #         filewriter.writerow([expected[0][i],expected[1][i]])
