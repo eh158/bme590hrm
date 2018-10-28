@@ -126,7 +126,7 @@ def get_file(my_file=None):
 
 def process_output(metrics, filename):
     try:
-        if os.path.isfile(my_file):
+        if os.path.isfile(filename):
             if ".csv" in filename:
                 pass
             else:
