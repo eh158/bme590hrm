@@ -108,8 +108,10 @@ def test_find_mean_hr_bpm(metrics, data, interval, expected):
 
 
 @pytest.mark.parametrize("metrics, data, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'voltage_extremes': (1, 2)}),
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'voltage_extremes': (1, 1)}),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]],
+     {'voltage_extremes': (1, 2)}),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]],
+     {'voltage_extremes': (1, 1)}),
     ({}, [[0, 1, 2, 3, 4, 5], []], {'voltage_extremes': ()})
 ])
 def test_find_voltage_extremes(metrics, data, expected):
@@ -125,8 +127,8 @@ def test_find_num_beats(metrics, data, expected):
 
 @pytest.mark.parametrize("metrics, data, interval, expected", [
     ({}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 20,
-     {"duration": 0.06666666666666667, "beats": [1, 3], "num_beats": 2, "voltage_extremes": (1, 2),
-      "mean_hr_bpm": 30.0})
+     {"duration": 0.06666666666666667, "beats": [1, 3], "num_beats": 2,
+      "voltage_extremes": (1, 2), "mean_hr_bpm": 30.0})
 ])
 def test_fill_metrics(metrics, data, interval, expected):
     assert fill_metrics(metrics, data, interval) == expected
