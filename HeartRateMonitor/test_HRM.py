@@ -71,7 +71,7 @@ def test_find_beats(metrics, data, expected):
 
 
 @pytest.mark.parametrize("metrics, filename, expected", [
-    ({'beats': [1]}, 'test.csv', TRUE)
+    ({'beats': [1]}, 'test.csv', True)
 ])
 def test_process_output(metrics, filename, expected):
     assert os.path.isfile((process_output(metrics, filename))) == expected
