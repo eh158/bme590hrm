@@ -87,12 +87,12 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
         with open(jn, 'r') as f:
             out = json.load(f)
     except OSError:
-        assert detected == True
+        assert detected is True
     except IOError:
-        assert detected == True
+        assert detected is True
     else:
         assert out == expected
-        assert detected == False
+        assert detected is False
 
 
 @pytest.mark.parametrize("filename, expected", [

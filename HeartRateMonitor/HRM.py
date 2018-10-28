@@ -177,7 +177,7 @@ def get_interval(interval=None):
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file('test0.csv')
+    my_file = get_file('te.csv')
     # read in user input for interval
     interval = get_interval('20')
     u_input = gather_inputs(my_file, float(interval))
