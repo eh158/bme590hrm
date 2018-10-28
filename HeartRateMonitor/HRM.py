@@ -78,10 +78,12 @@ def find_peaks(voltages):
 
 
 def process_file(filename):
-    if not os.path.isfile(my_file):
-        raise OSError
-    if ".csv" in my_file or not isinstance(filename, str):
-        raise IOError
+    if not isinstance(filename, str):
+        raise IOError('File not string')
+    if not os.path.isfile(filename):
+        raise OSError('File not found')
+    if ".csv" in filename:
+        raise IOError('File not csv file')
     csv_file = np.genfromtxt(filename, delimiter=",")
     # add checker for correct formatting, and raise exception otherwise
     if csv_file.shape[1] > 2:
