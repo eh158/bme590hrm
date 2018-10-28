@@ -157,8 +157,14 @@ def test_find_voltage_extremes(metrics, data, expected):
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'num_beats': 2}, False),
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'num_beats': 2}, False)
 ])
-def test_find_num_beats(metrics, data, expected):
-    assert find_num_beats(metrics, data) == expected
+def test_find_num_beats(metrics, data, expected, detected):
+    try:
+        out = find_num_beats(metrics, data)
+    except ValueError:
+        assert detected is True
+    else:
+        assert out == expected
+        assert detected is False
 
 
 @pytest.mark.parametrize("metrics, data, interval, expected", [
