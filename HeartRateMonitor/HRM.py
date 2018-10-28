@@ -101,10 +101,10 @@ def process_file(filename):
     for i in csv_file:
         times.append(i[0])
         voltages.append((i[1]))
-    invalids = [x for x in [times, voltages]
-                if isinstance(x[0], str) or isinstance(x[1], str)]
-    if len(invalids) > 0:
-        raise ValueError('String not expected in data')
+    # invalids = [x for x in [times, voltages]
+    #             if isinstance(x[0], str) or isinstance(x[1], str)]
+    # if len(invalids) > 0:
+    #     raise ValueError('String not expected in data')
     return [times, voltages]
 
 
