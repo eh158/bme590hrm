@@ -80,8 +80,8 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
     with open(f2, 'w') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
                                 quoting=csv.QUOTE_MINIMAL)
-        for i in range(len(expected[0])):
-            filewriter.writerow([expected[0][i], expected[1][i]])
+        for i in range(5):
+            filewriter.writerow(i, i%2)
     try:
         process_output(metrics, filename)
         with open(jn, 'r') as f:
