@@ -63,7 +63,49 @@ def test_find_duration(metrics, data, expected):
 
 
 @pytest.mark.parametrize("metrics, data, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]}),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'beats': []})
 ])
 def test_find_beats(metrics, data, expected):
     assert find_beats(metrics, data) == expected
+
+# @pytest.mark.parametrize("metrics, data, expected", [
+#     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
+# ])
+# def test_process_output(metrics, filename, expected):
+#     assert process_output(metrics, filename) == expected
+#
+#
+# @pytest.mark.parametrize("metrics, data, expected", [
+#     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
+# ])
+# def test_gather_inputs(metrics, data, expected):
+#     assert gather_inputs(metrics, data) == expected
+#
+#
+# @pytest.mark.parametrize("metrics, data, expected", [
+#     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
+# ])
+# def test_find_mean_hr(metrics, data, expected):
+#     assert find_mean_hr(metrics, data) == expected
+#
+#
+# @pytest.mark.parametrize("metrics, data, expected", [
+#     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
+# ])
+# def test_find_voltage_extremes(metrics, data, expected):
+#     assert find_voltage_extremes(metrics, data) == expected
+#
+#
+# @pytest.mark.parametrize("metrics, data, expected", [
+#     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
+# ])
+# def test_find_num_beats(metrics, data, expected):
+#     assert find_num_beats(metrics, data) == expected
+#
+#
+# @pytest.mark.parametrize("metrics, data, expected", [
+#     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
+# ])
+# def test_fill_metrics(metrics, data, expected):
+#     assert fill_metrics(metrics, data) == expected
