@@ -63,12 +63,19 @@ def test_find_duration(metrics, data, expected):
     assert find_duration(metrics, data) == expected
 
 
-@pytest.mark.parametrize("metrics, data, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]}),
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'beats': []})
+@pytest.mark.parametrize("metrics, data, expected, detected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]}, False),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'beats': []}, False)
+        ({}, [[0, 1], [0, 'a']], {}, True)
 ])
-def test_find_beats(metrics, data, expected):
-    assert find_beats(metrics, data) == expected
+def test_find_beats(metrics, data, expected, detected):
+    try:
+        find_beats(metrics, data) == expected
+    except ValueError:
+        assert detected is True
+    else:
+        assert find_beats(metrics, data) == expected
+        assert detected is False
 
 
 @pytest.mark.parametrize("metrics, filename, f2, jn, expected, detected", [
