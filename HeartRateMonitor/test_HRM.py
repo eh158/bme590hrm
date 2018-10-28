@@ -82,7 +82,7 @@ def test_process_output(metrics, filename, expected):
     ('test0.csv', 20, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 20])
 ])
 def test_gather_inputs(my_file, interval, expected):
-    assert gather_inputs(metrics, interval) == expected
+    assert gather_inputs(my_file, interval) == expected
 
 # @pytest.mark.parametrize("metrics, data, expected", [
 #     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
