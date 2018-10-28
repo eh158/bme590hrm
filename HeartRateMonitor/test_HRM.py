@@ -73,7 +73,7 @@ def test_find_beats(metrics, data, expected):
 
 @pytest.mark.parametrize("metrics, filename, f2, jn, expected, detected", [
     ({'beats': [1]}, 't.csv', 't.csv', 't.json', {'beats': [1]}, False),
-    ({'beats': [1]}, 't', 't.csv', 't.json', {'beats': [1]}, True),
+    ({'beats': [1]}, 'a', 't.csv', 't.json', {'beats': [1]}, True),
     ({'beats': [1]}, 't1.csv', 't.csv', 't.json', {'beats': [1]}, True)
 ])
 def test_process_output(metrics, filename, f2, jn, expected, detected):
