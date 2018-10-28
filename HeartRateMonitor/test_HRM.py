@@ -127,5 +127,5 @@ def test_find_num_beats(metrics, data, expected):
      {"duration": 0.06666666666666667, "beats": [1.0, 3.0], "num_beats": 2, "voltage_extremes": [1.0, 2.0],
       "mean_hr_bpm": 30.0})
 ])
-def test_fill_metrics(metrics, data, expected):
-    assert fill_metrics(metrics, data) == expected
+def test_fill_metrics(metrics, data, interval, expected):
+    assert fill_metrics(metrics, data, interval) == expected
