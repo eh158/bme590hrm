@@ -7,7 +7,7 @@ from HRM import *
     ([0, 1, 0], 1, False),
     ([-1, 1, -1], 1, False),
     ([0, 0, 1, 0], 2, False),
-    ([0, 1, '0'], 1, True)
+    ([0, 1, '0'], 1, True),
     ([0, 'a', 0], 1, True)
 ])
 def test_find_peaks(given, expected, detected):
