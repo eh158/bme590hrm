@@ -17,6 +17,9 @@ def fill_metrics(metrics, data, interval):
 
 
 def find_duration(metrics, data):
+    invalids = [x for x in data[0] if isinstance(x, str)]
+    if len(invalids) > 0:
+        raise ValueError('String not expected in data')
     time_array = data[0]
     if (len(time_array) == 0):
         metrics['duration'] = 0
