@@ -77,6 +77,13 @@ def test_process_output(metrics, filename, expected):
     assert os.path.isfile((process_output(metrics, filename))) == expected
 
 
+@pytest.mark.parametrize("metrics, filename, expected", [
+    ('test0.csv', [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]])
+])
+def test_process_file(filename, expected):
+    assert test_process_file(filename) == expected
+
+
 @pytest.mark.parametrize("my_file, interval, expected", [
     ('test0.csv', 20, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 20])
 ])
