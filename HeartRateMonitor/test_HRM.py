@@ -131,6 +131,7 @@ def test_process_file(filename, expected, detected):
     except ValueError:
         assert detected is True
     else:
+        print(out)
         assert detected is False
         assert expected == out
 
