@@ -209,3 +209,4 @@ if __name__ == "__main__":
     #     for i in range(len(expected[0])):
     #         filewriter.writerow([expected[0][i],expected[1][i]])
     # b = gather_inputs(filename, 20)
+    gather_inputs('test2.csv',20)
