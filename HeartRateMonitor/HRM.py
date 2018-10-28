@@ -127,7 +127,9 @@ def get_file(my_file=None):
 def process_output(metrics, filename):
     try:
         if ".csv" in filename:
-            break
+            pass
+        else:
+            raise IOError
     except IOError:
         print('Please specify a csv file.')
     except OSError:
