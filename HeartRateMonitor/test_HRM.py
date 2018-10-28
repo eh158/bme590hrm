@@ -71,14 +71,24 @@ def test_find_beats(metrics, data, expected):
     assert find_beats(metrics, data) == expected
 
 
-@pytest.mark.parametrize("metrics, filename, jsonname, expected", [
-    ({'beats': [1]}, 'test.csv', 'test.json', {'beats': [1]})
+@pytest.mark.parametrize("metrics, filename, jsonname, expected, exception_detected", [
+    ({'beats': [1]}, 'test.csv', 'test.json', {'beats': [1]}, False),
+    ({'beats': [1]}, 'test', 'test.json', {'beats': [1]}, True),
+    ({'beats': [1]}, 'test.csv', 'test.json', {'beats': [1]}, True)
 ])
-def test_process_output(metrics, filename, jsonname, expected):
-    process_output(metrics, filename)
-    with open(jsonname, 'r') as f:
-        out = json.load(f)
-    assert out == expected
+def test_process_output(metrics, filename, jsonname, expected, exception_detected):
+    exception = False
+    try:
+        process_output(metrics, filename)
+        with open(jsonname, 'r') as f:
+            out = json.load(f)
+        assert out == expected
+    except OSError:
+        exception = True
+    except IOError:
+        exception = True
+    finally:
+        assert out == expected
 
 
 @pytest.mark.parametrize("filename, expected", [
