@@ -165,7 +165,7 @@ if __name__ == "__main__":
     # read in data from CSV file
     my_file = get_file('test0.csv')
     # read in user input for interval
-    interval = get_interval(20)
+    interval = get_interval('20')
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
     process_output(metrics, my_file)
