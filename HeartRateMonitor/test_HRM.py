@@ -132,8 +132,8 @@ def test_process_file(filename, expected, detected):
         assert detected is True
     else:
         print(out)
-        assert detected is False
         assert expected == out
+        assert detected is False
 
 
 @pytest.mark.parametrize("my_file, interval, expected", [
