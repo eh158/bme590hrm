@@ -123,7 +123,7 @@ def test_find_num_beats(metrics, data, expected):
 
 
 @pytest.mark.parametrize("metrics, data, interval, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], 20,
+    ({}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 20,
      {"duration": 0.06666666666666667, "beats": [1, 3], "num_beats": 2, "voltage_extremes": (1, 2),
       "mean_hr_bpm": 30.0})
 ])
