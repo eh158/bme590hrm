@@ -76,7 +76,7 @@ def test_find_beats(metrics, data, expected):
     ({'beats': [1]}, 'test', 'test.csv', 'test.json', {'beats': [1]}, True),
     ({'beats': [1]}, 'test1.csv', 'test.csv', 'test.json', {'beats': [1]}, True)
 ])
-def test_process_output(metrics, filename, jn, expected, detected):
+def test_process_output(metrics, filename, f2, jn, expected, detected):
     with open(f2, 'w') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
                                 quoting=csv.QUOTE_MINIMAL)
