@@ -81,7 +81,7 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
                                 quoting=csv.QUOTE_MINIMAL)
         for i in range(5):
-            filewriter.writerow([i, i%2])
+            filewriter.writerow([i, i % 2])
     try:
         process_output(metrics, filename)
     except ValueError:
@@ -143,4 +143,3 @@ def test_find_num_beats(metrics, data, expected):
 ])
 def test_fill_metrics(metrics, data, interval, expected):
     assert fill_metrics(metrics, data, interval) == expected
-
