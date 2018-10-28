@@ -65,8 +65,8 @@ def test_find_duration(metrics, data, expected):
 
 @pytest.mark.parametrize("metrics, data, expected, detected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]}, False),
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'beats': []}, False)
-        ({}, [[0, 1], [0, 'a']], {}, True)
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'beats': []}, False),
+        ({}, [[0, 1], [0, 'a']], {'beats': 0}, True)
 ])
 def test_find_beats(metrics, data, expected, detected):
     try:
