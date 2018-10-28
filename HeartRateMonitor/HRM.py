@@ -48,6 +48,10 @@ def find_num_beats(metrics, data):
 
 
 def find_voltage_extremes(metrics, data):
+    if(len(data[1])==0):
+        metrics['voltage_extremes'] = ()
+        warn('No voltage data available')
+        return metrics
     min_v = min(data[1])
     max_v = max(data[1])
     metrics['voltage_extremes'] = (min_v, max_v)

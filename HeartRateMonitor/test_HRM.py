@@ -75,9 +75,9 @@ def test_find_beats(metrics, data, expected):
     ({'beats': [1]}, 'test.csv', 'test.json', {'beats': [1]})
 ])
 def test_process_output(metrics, filename, jsonname, expected):
-    process_output(metrics,filename)
+    process_output(metrics, filename)
     with open(jsonname, 'r') as f:
-            out = json.load(f)
+        out = json.load(f)
     assert out == expected
 
 
@@ -88,7 +88,7 @@ def test_process_file(filename, expected):
     with open(filename, 'w') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         for i in range(len(expected[0])):
-            filewriter.writerow([expected[0][i],expected[1][i]])
+            filewriter.writerow([expected[0][i], expected[1][i]])
     assert process_file(filename) == expected
 
 
@@ -105,13 +105,15 @@ def test_gather_inputs(my_file, interval, expected):
 def test_find_mean_hr_bpm(metrics, data, interval, expected):
     assert find_mean_hr_bpm(metrics, data, interval) == expected
 
-# @pytest.mark.parametrize("metrics, data, expected", [
-#     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
-# ])
-# def test_find_voltage_extremes(metrics, data, expected):
-#     assert find_voltage_extremes(metrics, data) == expected
-#
-#
+
+@pytest.mark.parametrize("metrics, data, expected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'voltage_extremes': (1, 2)}),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'voltage_extremes': (1, 1)}),
+    ({}, [[0, 1, 2, 3, 4, 5], []], {'voltage_extremes': ()})
+])
+def test_find_voltage_extremes(metrics, data, expected):
+    assert find_voltage_extremes(metrics, data) == expected
+
 # @pytest.mark.parametrize("metrics, data, expected", [
 #     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
 # ])
