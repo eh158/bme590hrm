@@ -60,8 +60,8 @@ def test_get_file(given, expected):
 
 @pytest.mark.parametrize("metrics, data, expected, detected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1]], {'duration': 5 / 60}, False),
-    ({}, [[1, 2, 3, 4, 5, 5], [1, 1, 1, 1, 1]], {'duration': 5 / 60}, False),
-    ({}, [[1, 2, 3, 4, 5, 6], [1, 1, 1, 1, 1]], {'duration': 6 / 60}, False),
+    ({}, [[1, 2, 3, 4, 4.5, 5], [1, 1, 1, 1, 1]], {'duration': 4 / 60}, False),
+    ({}, [[1, 2, 3, 4, 5, 6], [1, 1, 1, 1, 1]], {'duration': 5 / 60}, False),
     ({}, [[0, 1, 2, 3, 4], [1, 1, 1, 1, 1]], {'duration': 4 / 60}, False),
     ({}, [[], []], {'duration': 0}, False),
     ({}, [[-1, 0], [1]], {'duration': 1 / 60}, False),
@@ -116,16 +116,23 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
         assert out == expected
 
 
-@pytest.mark.parametrize("filename, expected", [
-    ('test0.csv', [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]])
+@pytest.mark.parametrize("filename, expected, detected", [
+    ('test0.csv', [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], False),
+    ('test0.csv', [['a', 1, 2, 3, 4], [1, 2, 1, 2, 1]], True)
 ])
-def test_process_file(filename, expected):
+def test_process_file(filename, expected, detected):
     with open(filename, 'w') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
                                 quoting=csv.QUOTE_MINIMAL)
         for i in range(len(expected[0])):
             filewriter.writerow([expected[0][i], expected[1][i]])
-    assert process_file(filename) == expected
+    try:
+        out = process_file(filename)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert expected == out
 
 
 @pytest.mark.parametrize("my_file, interval, expected", [
