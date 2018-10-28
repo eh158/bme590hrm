@@ -84,13 +84,13 @@ def test_process_output(metrics, filename, expected):
 def test_gather_inputs(my_file, interval, expected):
     assert gather_inputs(my_file, interval) == expected
 
-# @pytest.mark.parametrize("metrics, data, expected", [
-#     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
-# ])
-# def test_find_mean_hr(metrics, data, expected):
-#     assert find_mean_hr(metrics, data) == expected
-#
-#
+
+@pytest.mark.parametrize("metrics, data, interval, expected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], 2.5, {'mean_hr_bpm': 24.0})
+])
+def test_find_mean_hr(metrics, data, interval, expected):
+    assert find_mean_hr(metrics, data, interval) == expected
+
 # @pytest.mark.parametrize("metrics, data, expected", [
 #     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]})
 # ])
