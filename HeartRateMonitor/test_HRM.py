@@ -105,7 +105,7 @@ def test_process_file(filename, expected):
 
 
 @pytest.mark.parametrize("my_file, interval, expected", [
-    ('test0.csv', 17, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 17])
+    ('test0.csv', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16])
 ])
 def test_gather_inputs(my_file, interval, expected):
     assert gather_inputs(my_file, interval) == expected
