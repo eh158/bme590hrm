@@ -83,12 +83,7 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
         for i in range(5):
             filewriter.writerow([i, i%2])
     try:
-        with pytest.raises(Exception) as excinfo:
-            process_output(metrics, filename)
-    except OSError:
-        assert str(excinfo.value) == 'File not found'
-    except IOError:
-        assert str(excinfo.value) == 'Please specify a csv file.'
+        process_output(metrics, filename)
     except ValueError:
         assert detected is True
     else:
