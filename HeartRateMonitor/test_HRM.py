@@ -70,7 +70,7 @@ def test_find_beats(metrics, data, expected):
     assert find_beats(metrics, data) == expected
 
 @pytest.mark.parametrize("metrics, filename, expected", [
-    ({}, 'test.csv', json.dump({},'test.json'))
+    ({'beats':[1]}, 'test.csv', 'test.json')
 ])
 def test_process_output(metrics, filename, expected):
     assert process_output(metrics, filename) == expected
