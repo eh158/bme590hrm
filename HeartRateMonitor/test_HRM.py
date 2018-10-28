@@ -90,7 +90,7 @@ def test_process_output(metrics, filename, jsonname, expected,
     except IOError:
         exception = True
     finally:
-        assert out == expected
+        assert exception == exception_detected
 
 
 @pytest.mark.parametrize("filename, expected", [
