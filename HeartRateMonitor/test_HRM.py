@@ -71,15 +71,20 @@ def test_find_beats(metrics, data, expected):
     assert find_beats(metrics, data) == expected
 
 
-@pytest.mark.parametrize("metrics, filename, jsonname, expected, detected", [
-    ({'beats': [1]}, 'test.csv', 'test.json', {'beats': [1]}, False),
-    ({'beats': [1]}, 'test', 'test.json', {'beats': [1]}, True),
-    ({'beats': [1]}, 'test.csv', 'test.json', {'beats': [1]}, True)
+@pytest.mark.parametrize("metrics, filename, f2, jn, expected, detected", [
+    ({'beats': [1]}, 'test.csv', 'test.csv', 'test.json', {'beats': [1]}, False),
+    ({'beats': [1]}, 'test', 'test.csv', 'test.json', {'beats': [1]}, True),
+    ({'beats': [1]}, 'test1.csv', 'test.csv', 'test.json', {'beats': [1]}, True)
 ])
-def test_process_output(metrics, filename, jsonname, expected, detected):
+def test_process_output(metrics, filename, jn, expected, detected):
+    with open(f2, 'w') as csvfile:
+        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
+                                quoting=csv.QUOTE_MINIMAL)
+        for i in range(len(expected[0])):
+            filewriter.writerow([expected[0][i], expected[1][i]])
     try:
         process_output(metrics, filename)
-        with open(jsonname, 'r') as f:
+        with open(jn, 'r') as f:
             out = json.load(f)
     except OSError:
         exception = True
