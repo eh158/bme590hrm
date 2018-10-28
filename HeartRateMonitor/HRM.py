@@ -3,6 +3,7 @@ import peakutils
 import json
 import os.path
 import sys
+import csv
 from warnings import warn
 
 
@@ -167,7 +168,8 @@ if __name__ == "__main__":
     a = process_output({'beats': [1]}, 'test.csv')
     # filename = 't.csv'
     # expected = [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]]
-    # with open(filename, 'wb') as csvfile:
+    # with open(filename, 'w') as csvfile:
     #     filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    #     for i in range(len(expected)):
+    #     for i in range(len(expected[0])):
     #         filewriter.writerow([expected[0][i],expected[1][i]])
+    # b = gather_inputs(filename,20)
