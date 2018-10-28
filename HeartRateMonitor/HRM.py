@@ -93,6 +93,8 @@ def process_file(filename):
 
 
 def gather_inputs(my_file, interval):
+    if '.csv' not in my_file:
+        raise IOError
     data = process_file(my_file)
     metrics = {}
     input = []

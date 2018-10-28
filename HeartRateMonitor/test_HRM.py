@@ -106,6 +106,7 @@ def test_process_file(filename, expected):
 
 @pytest.mark.parametrize("my_file, interval, expected, detected", [
     ('test0.csv', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], False),
+    ('test0', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True),
     ('test4.csv', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True)
 ])
 def test_gather_inputs(my_file, interval, expected, detected):
@@ -113,9 +114,12 @@ def test_gather_inputs(my_file, interval, expected, detected):
         out = gather_inputs(my_file, interval)
     except OSError:
         assert detected is True
+    except IOError:
+        assert detected is True
     else:
         assert out == expected
         assert detected is False
+
 
 @pytest.mark.parametrize("metrics, data, interval, expected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], 2.5, {'mean_hr_bpm': 24.0})
