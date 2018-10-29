@@ -145,6 +145,11 @@ def test_process_file(filename, expected, detected):
     ('test4.csv', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True)
 ])
 def test_gather_inputs(my_file, interval, expected, detected):
+    with open(my_file, 'w') as csvfile:
+        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
+                                quoting=csv.QUOTE_MINIMAL)
+        for i in range(len(expected[0])):
+            filewriter.writerow([expected[0][i], expected[1][i]])
     try:
         out = gather_inputs(my_file, interval)
     except OSError:
@@ -216,7 +221,6 @@ def test_find_num_beats(metrics, data, expected, detected):
 ])
 def test_fill_metrics(metrics, data, interval, expected):
     assert fill_metrics(metrics, data, interval) == expected
-
 
 # if __name__ == "__main__":
 #     expected = [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]]
