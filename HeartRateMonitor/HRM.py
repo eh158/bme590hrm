@@ -9,6 +9,19 @@ from warnings import warn
 
 
 def fill_metrics(metrics, data, interval):
+    """
+    Parameters
+    ----------
+    metrics : dictionary
+        dictionary to be written into
+    data : list
+        data to write into dictionary
+    interval :
+        interval for writing data
+    Returns
+    -------
+    python dictionary
+    """
     find_duration(metrics, data)
     find_beats(metrics, data)
     find_num_beats(metrics, data)
@@ -18,6 +31,19 @@ def fill_metrics(metrics, data, interval):
 
 
 def find_duration(metrics, data):
+    """
+    Parameters
+    ----------
+    metrics: dictionary
+        dictionary to add to
+    data: list
+        time and voltage data for dictionary
+    Returns
+    -------
+
+    Raises
+    ------
+    """
     x = [i for i in data[0] if isinstance(i, str)]
     if len(x) > 0:
         raise ValueError('String not expected')
@@ -151,7 +177,8 @@ def gather_inputs(my_file, interval):
 
 def get_file(my_file=None):
     logging.basicConfig(filename="megatslog.txt",
-                        format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+                        format='%(asctime)s %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S %p')
     if my_file is None:
         while True:
             try:
