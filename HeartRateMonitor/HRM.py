@@ -78,10 +78,10 @@ def find_peaks(voltages):
 
 
 def process_file(filename):
-    if not isinstance(filename, str):
-        raise IOError('File not string')
-    if not os.path.isfile(filename):
-        raise OSError('File not found')
+    # if not isinstance(filename, str):
+    #     raise IOError('File not string')
+    # if not os.path.isfile(filename):
+    #     raise OSError('File not found')
     if ".csv" in filename:
         raise IOError('File not csv file')
     csv_file = np.genfromtxt(filename, delimiter=",")
@@ -99,8 +99,6 @@ def process_file(filename):
 
 
 def gather_inputs(my_file, interval):
-    if not isinstance(my_file, str):
-        raise IOError('Filename not string')
     if '.csv' not in my_file:
         raise IOError('File not csv file')
     data = process_file(my_file)
