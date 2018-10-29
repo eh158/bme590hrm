@@ -119,7 +119,7 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
 
 
 @pytest.mark.parametrize("filename, expected", [
-    ('test0.csv', [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]])
+    ('test0.csv', [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]]),
     ('test0.csv', [[0, 1, 2, 3, 4], ['a', 2, 1, 2, 1]])
 ])
 def test_process_file(filename, expected, detected):
