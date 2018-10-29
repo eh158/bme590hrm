@@ -82,7 +82,7 @@ def process_file(filename):
     #     raise IOError('File not string')
     # if not os.path.isfile(filename):
     #     raise OSError('File not found')
-    if ".csv" in filename:
+    if ".csv" not in filename:
         raise IOError('File not csv file')
     csv_file = np.genfromtxt(filename, delimiter=",")
     # add checker for correct formatting, and raise exception otherwise
