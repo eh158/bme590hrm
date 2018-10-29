@@ -131,9 +131,12 @@ def test_gather_inputs(my_file, interval, expected, detected):
 
 
 @pytest.mark.parametrize("metrics, data, interval, expected, detected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], 2.5, {'mean_hr_bpm': 24.0}, False),
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, '1']], 2.5, {'mean_hr_bpm': 24.0}, True),
-    ({}, [[0, 1, 2, 3, 4, '5'], [1, 2, 1, 2, 1]], 2.5, {'mean_hr_bpm': 24.0}, True)
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]],
+     2.5, {'mean_hr_bpm': 24.0}, False),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, '1']],
+     2.5, {'mean_hr_bpm': 24.0}, True),
+    ({}, [[0, 1, 2, 3, 4, '5'], [1, 2, 1, 2, 1]],
+     2.5, {'mean_hr_bpm': 24.0}, True)
 ])
 def test_find_mean_hr_bpm(metrics, data, interval, expected, detected):
     try:
@@ -143,6 +146,7 @@ def test_find_mean_hr_bpm(metrics, data, interval, expected, detected):
     else:
         assert detected is False
         assert out == expected
+
 
 @pytest.mark.parametrize("metrics, data, expected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]],
