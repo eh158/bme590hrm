@@ -140,9 +140,7 @@ def test_process_file(filename, expected, detected):
 @pytest.mark.parametrize("my_file, interval, expected, detected", [
     ('abc.csv', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], False),
     ('test0', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True),
-    ('0', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True),
-    (0, 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True),
-    ('test4.csv', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True)
+    ('0', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True)
 ])
 def test_gather_inputs(my_file, interval, expected, detected):
     with open(my_file, 'w') as csvfile:
@@ -222,13 +220,13 @@ def test_find_num_beats(metrics, data, expected, detected):
 def test_fill_metrics(metrics, data, interval, expected):
     assert fill_metrics(metrics, data, interval) == expected
 
-if __name__ == "__main__":
-    expected = [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]],16]
-    with open('abc.csv', 'w') as csvfile:
-        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
-                                quoting=csv.QUOTE_MINIMAL)
-        for i in range(len(expected[1][0])):
-            filewriter.writerow([expected[1][0][i], expected[1][1][i]])
-    csv_file = np.genfromtxt('abc.csv', delimiter=",", dtype=None)
-    print(csv_file)
-    print(len(csv_file.shape))
+# if __name__ == "__main__":
+#     expected = [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16]
+#     with open('abc.csv', 'w') as csvfile:
+#         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
+#                                 quoting=csv.QUOTE_MINIMAL)
+#         for i in range(len(expected[1][0])):
+#             filewriter.writerow([expected[1][0][i], expected[1][1][i]])
+#     csv_file = np.genfromtxt('abc.csv', delimiter=",", dtype=None)
+#     print(csv_file)
+#     print(len(csv_file.shape))
