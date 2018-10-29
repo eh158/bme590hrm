@@ -78,8 +78,8 @@ def find_peaks(voltages):
 
 
 def process_file(filename):
-    # if not isinstance(filename, str):
-    #     raise IOError('File not string')
+    if not isinstance(filename, str):
+        raise IOError('File not string')
     # if not os.path.isfile(filename):
     #     raise OSError('File not found')
     if ".csv" not in filename:
