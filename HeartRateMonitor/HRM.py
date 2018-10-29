@@ -48,6 +48,9 @@ def find_num_beats(metrics, data):
 
 
 def find_voltage_extremes(metrics, data):
+    x = [i for i in data[1] if isinstance(i, str)]
+    if len(x) > 0:
+        raise ValueError('String not expected')
     if (len(data[1]) == 0):
         metrics['voltage_extremes'] = ()
         warn('No voltage data available')

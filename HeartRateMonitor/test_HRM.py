@@ -148,15 +148,23 @@ def test_find_mean_hr_bpm(metrics, data, interval, expected, detected):
         assert out == expected
 
 
-@pytest.mark.parametrize("metrics, data, expected", [
+@pytest.mark.parametrize("metrics, data, expected, detected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]],
-     {'voltage_extremes': (1, 2)}),
+     {'voltage_extremes': (1, 2)}, False),
     ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]],
-     {'voltage_extremes': (1, 1)}),
-    ({}, [[0, 1, 2, 3, 4, 5], []], {'voltage_extremes': ()})
+     {'voltage_extremes': (1, 1)}, False),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, '1']],
+     {'voltage_extremes': (1, 1)}, True),
+    ({}, [[0, 1, 2, 3, 4, 5], []], {'voltage_extremes': ()}, False)
 ])
-def test_find_voltage_extremes(metrics, data, expected):
-    assert find_voltage_extremes(metrics, data) == expected
+def test_find_voltage_extremes(metrics, data, expected, detected):
+    try:
+        out = find_voltage_extremes(metrics, data)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
 
 
 @pytest.mark.parametrize("metrics, data, expected", [
