@@ -149,7 +149,7 @@ def test_gather_inputs(my_file, interval, expected, detected):
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
                                 quoting=csv.QUOTE_MINIMAL)
         for i in range(len(expected[0])):
-            filewriter.writerow([expected[0][i], expected[1][i]])
+            filewriter.writerow([expected[1][i], expected[2][i]])
     try:
         out = gather_inputs(my_file, interval)
     except OSError:

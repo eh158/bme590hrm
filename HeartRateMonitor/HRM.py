@@ -110,7 +110,7 @@ def process_file(filename):
         if csv_file.shape[1] > 2:
             warn("Check if data is time and voltage columnwise")
         if csv_file.shape[1] < 2:
-            sys.exit("Insufficient data provided; both time and voltage needed.")
+            sys.exit("Insufficient data; both time and voltage needed.")
     else:
         raise ValueError('Strings detected in data')
     times = []
