@@ -39,6 +39,7 @@ def find_duration(metrics, data):
 def find_beats(metrics, data):
     x = [i for i in data[1] if isinstance(i, str)]
     if len(x) > 0:
+        logging.error('String not expected')
         raise ValueError('String not expected')
     indexes = find_peaks(data[1])
     times = []
@@ -51,6 +52,7 @@ def find_beats(metrics, data):
 def find_num_beats(metrics, data):
     x = [i for i in data[1] if isinstance(i, str)]
     if len(x) > 0:
+        logging.error('String not expected')
         raise ValueError('String not expected')
     indexes = find_peaks(data[1])
     metrics['num_beats'] = len(indexes)
@@ -60,6 +62,7 @@ def find_num_beats(metrics, data):
 def find_voltage_extremes(metrics, data):
     x = [i for i in data[1] if isinstance(i, str)]
     if len(x) > 0:
+        logging.error('String not expected')
         raise ValueError('String not expected')
     if (len(data[1]) == 0):
         metrics['voltage_extremes'] = ()
@@ -75,6 +78,7 @@ def find_mean_hr_bpm(metrics, data, time_interval):
     x = [i for i in data[0] if isinstance(i, str)]
     y = [i for i in data[1] if isinstance(i, str)]
     if len(x) > 0 or len(y) > 0:
+        logging.error('String not expected')
         raise ValueError('String not expected')
     if time_interval > data[0][len(data[0]) - 1]:
         time_interval = data[0][len(data[0]) - 1]
@@ -91,6 +95,7 @@ def find_mean_hr_bpm(metrics, data, time_interval):
 def find_peaks(voltages):
     x = [i for i in voltages if isinstance(i, str)]
     if len(x) > 0:
+        logging.error('String not expected')
         raise ValueError('String not expected')
     cb = np.array(voltages)
     indexes = peakutils.indexes(cb)
@@ -99,17 +104,22 @@ def find_peaks(voltages):
 
 def process_file(filename):
     if not isinstance(filename, str):
+        logging.error('File not string')
         raise IOError('File not string')
     elif not os.path.isfile(filename):
+        logging.error('File not found')
         raise OSError('File not found')
     elif ".csv" not in filename:
+        logging.error('File not csv file')
         raise IOError('File not csv file')
     csv_file = np.genfromtxt(filename, delimiter=",", dtype=None)
     # add checker for correct formatting, and raise exception otherwise
     if len(csv_file.shape) > 1:
         if csv_file.shape[1] > 2:
+            logging.warn('More data provided than needed')
             warn("Check if data is time and voltage columnwise")
         if csv_file.shape[1] < 2:
+            logging.error('Data format incorrect')
             sys.exit("Insufficient data; both time and voltage needed.")
     else:
         raise ValueError('Strings detected in data or data format wrong.')
@@ -125,8 +135,10 @@ def process_file(filename):
 
 def gather_inputs(my_file, interval):
     if not isinstance(my_file, str):
+        logging.error('File not string')
         raise IOError('File not string')
     elif '.csv' not in my_file:
+        logging.error('File not csv file')
         raise IOError('File not csv file')
     data = process_file(my_file)
     metrics = {}
@@ -138,6 +150,8 @@ def gather_inputs(my_file, interval):
 
 
 def get_file(my_file=None):
+    logging.basicConfig(filename="megatslog.txt",
+                        format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     if my_file is None:
         while True:
             try:
@@ -152,10 +166,13 @@ def get_file(my_file=None):
                 print('Please specify a csv file.')
     if type(my_file) is str:
         if ".csv" in my_file:
+            logging.info('File valid')
             return my_file
         else:
+            logging.error('File invalid.')
             sys.exit('File not csv file, exiting now.')
     else:
+        logging.error('File invalid')
         sys.exit('Filename not a string, exiting now')
 
 
@@ -172,8 +189,10 @@ def process_output(metrics, filename):
             raise OSError
     except IOError:
         print('Please specify a csv file.')
+        logging.error('Not a csv file')
     except OSError:
         print('File not found')
+        logging.error('File not found')
     if (len(list(metrics.keys())) == 0):
         warn('No data was processed')
     save_file = filename.replace('.csv', '')
@@ -202,21 +221,24 @@ def get_interval(interval=None):
     if check.isdigit():
         if (str(interval).find(".") != str(interval).rfind(".")):
             warn('Interval invalid, default interval will be used instead')
+            logging.warn('Default interval used')
             return default_interval
         if (float(interval) <= 0):
             warn('Interval is negative, default interval will be used instead')
+            logging.warn('Default interval used')
             return default_interval
         return float(interval)
     else:
         warn('Interval invalid, default interval will be used instead')
+        logging.warn('Default interval used')
         return default_interval
 
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file('test0')
+    my_file = get_file('ab')
     # read in user input for interval
-    interval = get_interval('20')
+    interval = get_interval(None)
     u_input = gather_inputs(my_file, float(interval))
     metrics = fill_metrics(u_input[0], u_input[1], u_input[2])
     process_output(metrics, my_file)
