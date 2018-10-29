@@ -169,7 +169,7 @@ def test_find_voltage_extremes(metrics, data, expected, detected):
 
 @pytest.mark.parametrize("metrics, data, expected, detected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'num_beats': 2}, False),
-    ({}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, '1']], {'num_beats': 2}, False)
+    ({}, [[0, 1, 2, 3, '4'], [1, 2, 1, 2, '1']], {'num_beats': 2}, False)
 ])
 def test_find_num_beats(metrics, data, expected, detected):
     try:
