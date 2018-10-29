@@ -103,7 +103,7 @@ def process_file(filename):
         raise OSError('File not found')
     elif ".csv" not in filename:
         raise IOError('File not csv file')
-    csv_file = np.genfromtxt(filename, delimiter=",",dtype=None)
+    csv_file = np.genfromtxt(filename, delimiter=",", dtype=None)
     # add checker for correct formatting, and raise exception otherwise
     if csv_file.shape[1] > 2:
         warn("Check if data is time and voltage columnwise")
