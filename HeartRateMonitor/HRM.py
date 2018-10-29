@@ -99,7 +99,9 @@ def process_file(filename):
 
 
 def gather_inputs(my_file, interval):
-    if '.csv' not in my_file:
+    if not isinstance(my_file, str):
+        raise IOError('File not string')
+    elif '.csv' not in my_file:
         raise IOError('File not csv file')
     data = process_file(my_file)
     metrics = {}
