@@ -40,9 +40,12 @@ def find_duration(metrics, data):
         time and voltage data for dictionary
     Returns
     -------
-
+        dictionary containing duration value unless
+        data provided to dictionary is faulty
     Raises
     ------
+        ValueError
+            If data contains strings
     """
     x = [i for i in data[0] if isinstance(i, str)]
     if len(x) > 0:
@@ -63,6 +66,22 @@ def find_duration(metrics, data):
 
 
 def find_beats(metrics, data):
+    """
+    Parameters
+    ----------
+    metrics: dictionary
+        dictionary to add to
+    data: list
+        time and voltage data for dictionary
+    Returns
+    -------
+        dictionary containing array of times when beats occurred unless
+        data provided to dictionary is faulty
+    Raises
+    ------
+        ValueError
+            If data contains strings
+    """
     x = [i for i in data[1] if isinstance(i, str)]
     if len(x) > 0:
         logging.error('String not expected')
@@ -76,6 +95,22 @@ def find_beats(metrics, data):
 
 
 def find_num_beats(metrics, data):
+    """
+    Parameters
+    ----------
+    metrics: dictionary
+        dictionary to add to
+    data: list
+        time and voltage data for dictionary
+    Returns
+    -------
+        dictionary containing number of beats in dataset unless
+        data provided to dictionary is faulty
+    Raises
+    ------
+        ValueError
+            If data contains strings
+    """
     x = [i for i in data[1] if isinstance(i, str)]
     if len(x) > 0:
         logging.error('String not expected')
@@ -86,6 +121,22 @@ def find_num_beats(metrics, data):
 
 
 def find_voltage_extremes(metrics, data):
+    """
+    Parameters
+    ----------
+    metrics: dictionary
+        dictionary to add to
+    data: list
+        time and voltage data for dictionary
+    Returns
+    -------
+        dictionary containing voltage extremes in tuple unless
+        data provided to dictionary is faulty
+    Raises
+    ------
+        ValueError
+            If data contains strings
+    """
     x = [i for i in data[1] if isinstance(i, str)]
     if len(x) > 0:
         logging.error('String not expected')
@@ -101,6 +152,24 @@ def find_voltage_extremes(metrics, data):
 
 
 def find_mean_hr_bpm(metrics, data, time_interval):
+    """
+    Parameters
+    ----------
+    metrics: dictionary
+        dictionary to add to
+    data: list
+        time and voltage data for dictionary
+    interval: int or float
+        time in seconds over which mean hr is to be calculated
+    Returns
+    -------
+        dictionary containing mean HR in bpm unless
+        data provided to dictionary is faulty
+    Raises
+    ------
+        ValueError
+            If data contains strings
+    """
     x = [i for i in data[0] if isinstance(i, str)]
     y = [i for i in data[1] if isinstance(i, str)]
     if len(x) > 0 or len(y) > 0:
@@ -119,6 +188,22 @@ def find_mean_hr_bpm(metrics, data, time_interval):
 
 
 def find_peaks(voltages):
+    """
+    Parameters
+    ----------
+    metrics: dictionary
+        dictionary to add to
+    voltage: list
+        voltage data for dictionary
+    Returns
+    -------
+        dictionary containing index of peaks unless
+        data provided to dictionary is faulty
+    Raises
+    ------
+        ValueError
+            If data contains strings
+    """
     x = [i for i in voltages if isinstance(i, str)]
     if len(x) > 0:
         logging.error('String not expected')
@@ -129,6 +214,23 @@ def find_peaks(voltages):
 
 
 def process_file(filename):
+    """
+    Parameters
+    ----------
+    filename: string
+        name of file to be processed. Should be a valid csv file
+    Returns
+    -------
+        List of times and voltages if file is valid
+    Raises
+    ------
+        ValueError
+            If data contains strings
+        IOError
+            If filename is not string or if file is not a csv file
+        OSError
+            If file not found
+    """
     if not isinstance(filename, str):
         logging.error('File not string')
         raise IOError('File not string')
@@ -160,6 +262,23 @@ def process_file(filename):
 
 
 def gather_inputs(my_file, interval):
+    """
+    Parameters
+    ----------
+    my_file: string
+        name of file to gather inputs from
+    interval: int or float
+    Returns
+    -------
+        list containing:
+            empty dictionary,
+            list containing lists of data,
+            number describing time interval
+    Raises
+    ------
+        IOError
+            If filename is not string or if file is not a csv file
+    """
     if not isinstance(my_file, str):
         logging.error('File not string')
         raise IOError('File not string')
@@ -176,6 +295,25 @@ def gather_inputs(my_file, interval):
 
 
 def get_file(my_file=None):
+    """
+    Parameters
+    ----------
+    my_file: string or None
+        name of file to gather inputs from. If my_file
+        has value None, function will prompt user until
+        a valid csv file that exists is given
+    Returns
+    -------
+        string that is the filename of a csv file
+        which exists
+    Raises
+    ------
+        IOError
+            If file does not exist or file is not csv file
+    Exits
+    -----
+        If programmer-specified file is not a csv file or not a string
+    """
     logging.basicConfig(filename="megatslog.txt",
                         format='%(asctime)s %(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
@@ -204,6 +342,22 @@ def get_file(my_file=None):
 
 
 def process_output(metrics, filename):
+    """
+    Parameters
+    ----------
+    metrics: dictionary
+        dictionary that contains information to output
+    filename: name of file to write to
+    Returns
+    -------
+        json file containing information from metrics
+    Raises
+    ------
+        IOError
+            If filename file is not a csv file
+        OSError:
+            If file is not found
+    """
     if (isinstance(filename, str) is False):
         raise ValueError
     try:
@@ -230,6 +384,16 @@ def process_output(metrics, filename):
 
 
 def get_interval(interval=None):
+    """
+    Parameters
+    ----------
+    interval: Default value None, otherwise int or float
+        if None, function will prompt user until valid interval is given
+    Returns
+    -------
+        float time interval of the user input or default interval
+        of 20 seconds if the programmer-specified interval is invalid
+    """
     default_interval = 20
     if interval is None:
         while True:
