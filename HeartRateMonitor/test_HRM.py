@@ -174,7 +174,7 @@ def test_find_voltage_extremes(metrics, data, expected, detected):
 def test_find_num_beats(metrics, data, expected, detected):
     try:
         out = find_num_beats(metrics, data)
-    except:
+    except ValueError:
         assert detected is True
     else:
         assert detected is False
