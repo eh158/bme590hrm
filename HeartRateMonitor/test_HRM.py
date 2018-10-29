@@ -3,15 +3,22 @@ import csv
 from HRM import *
 
 
-@pytest.mark.parametrize("given,expected", [
-    ([0, 1, 0], 1),
-    ([-1, 1, -1], 1),
-    ([0, 0, 1, 0], 2)
+@pytest.mark.parametrize("given,expected, detected", [
+    ([0, 1, 0], 1, False),
+    ([-1, 1, -1], 1, False),
+    ([0, 0, 1, 0], 2, False),
+    ([0, 0, '1', 0], 2, True)
 ])
-def test_find_peaks(given, expected):
-    assert find_peaks(given) == expected
-    assert find_peaks([-2, 1, -2, -2, 0, -2])[0] == 1
-    assert find_peaks([-2, 1, -2, -2, 0, -2])[1] == 4
+def test_find_peaks(given, expected, detected):
+    try:
+        out = find_peaks(given)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
+    # assert find_peaks([-2, 1, -2, -2, 0, -2])[0] == 1
+    # assert find_peaks([-2, 1, -2, -2, 0, -2])[1] == 4
 
 
 @pytest.mark.parametrize("agiven,aexpected", [
@@ -50,25 +57,44 @@ def test_get_file(given, expected):
 #     assert pytest_wrapped_e.value.code == 1
 
 
-@pytest.mark.parametrize("metrics, data, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1]], {'duration': 5 / 60}),
-    ({}, [[0, 1, 2, 3, 4, 5, 5], [1, 1, 1, 1, 1, 1]], {'duration': 5 / 60}),
-    ({}, [[0, 1, 2, 3, 4, 5, 6], [1, 1, 1, 1, 1, 1]], {'duration': 6 / 60}),
-    ({}, [[0, 1, 2, 3, 4], [1, 1, 1, 1, 1]], {'duration': 4 / 60}),
-    ({}, [[], []], {'duration': 0}),
-    ({}, [[-1, 0], [1]], {'duration': 1 / 60}),
-    ({}, [[-3, -2, -1], [1]], {'duration': 2 / 60}),
+@pytest.mark.parametrize("metrics, data, expected, detected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1]],
+     {'duration': 5 / 60}, False),
+    ({}, [[0, 1, 2, 3, 4, 5, 5], [1, 1, 1, 1, 1, 1]],
+     {'duration': 5 / 60}, False),
+    ({}, [[0, 1, 2, 3, 4, 5, 6], [1, 1, 1, 1, 1, 1]],
+     {'duration': 6 / 60}, False),
+    ({}, [[0, 1, 2, 3, 4], [1, 1, 1, 1, 1]],
+     {'duration': 4 / 60}, False),
+    ({}, [[], []], {'duration': 0}, False),
+    ({}, [[-1, 0], [1]], {'duration': 1 / 60}, False),
+    ({}, [[-3, -2, -1], [1]], {'duration': 2 / 60}, False),
+    ({}, [[0, 1, 2, 3, '4'], [1, 1, 1, 1, 1]],
+     {'duration': 4 / 60}, True),
 ])
-def test_find_duration(metrics, data, expected):
-    assert find_duration(metrics, data) == expected
+def test_find_duration(metrics, data, expected, detected):
+    try:
+        out = find_duration(metrics, data)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
 
 
-@pytest.mark.parametrize("metrics, data, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]}),
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'beats': []})
+@pytest.mark.parametrize("metrics, data, expected, detected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'beats': [1, 3]}, False),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]], {'beats': []}, False),
+    ({}, [[0, 1, 2, 3, '4'], [1, 1, 1, 1, '1']], {'beats': []}, True)
 ])
-def test_find_beats(metrics, data, expected):
-    assert find_beats(metrics, data) == expected
+def test_find_beats(metrics, data, expected, detected):
+    try:
+        out = find_beats(metrics, data)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
 
 
 @pytest.mark.parametrize("metrics, filename, f2, jn, expected, detected", [
@@ -92,48 +118,98 @@ def test_process_output(metrics, filename, f2, jn, expected, detected):
         assert out == expected
 
 
-@pytest.mark.parametrize("filename, expected", [
-    ('test0.csv', [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]])
+@pytest.mark.parametrize("filename, expected, detected", [
+    ('test0.csv', [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], False),
+    ('test0.csv', [[0, 1, 2, 3, 4], ['a', 2, 1, 2, 1]], True)
 ])
-def test_process_file(filename, expected):
+def test_process_file(filename, expected, detected):
     with open(filename, 'w') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
                                 quoting=csv.QUOTE_MINIMAL)
         for i in range(len(expected[0])):
             filewriter.writerow([expected[0][i], expected[1][i]])
-    assert process_file(filename) == expected
+    try:
+        out = process_file(filename)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
 
 
-@pytest.mark.parametrize("my_file, interval, expected", [
-    ('test0.csv', 17, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 17])
+@pytest.mark.parametrize("my_file, interval, expected, detected", [
+    ('abc.csv', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], False),
+    ('test0', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True),
+    ('0', 16, [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16], True)
 ])
-def test_gather_inputs(my_file, interval, expected):
-    assert gather_inputs(my_file, interval) == expected
+def test_gather_inputs(my_file, interval, expected, detected):
+    with open(my_file, 'w') as csvfile:
+        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
+                                quoting=csv.QUOTE_MINIMAL)
+        for i in range(len(expected[1][0])):
+            filewriter.writerow([expected[1][0][i], expected[1][1][i]])
+    try:
+        out = gather_inputs(my_file, interval)
+    except OSError:
+        assert detected is True
+    except IOError:
+        assert detected is True
+    except ValueError:
+        assert detected is True
+    else:
+        assert out == expected
+        assert detected is False
 
 
-@pytest.mark.parametrize("metrics, data, interval, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], 2.5, {'mean_hr_bpm': 24.0})
-])
-def test_find_mean_hr_bpm(metrics, data, interval, expected):
-    assert find_mean_hr_bpm(metrics, data, interval) == expected
-
-
-@pytest.mark.parametrize("metrics, data, expected", [
+@pytest.mark.parametrize("metrics, data, interval, expected, detected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]],
-     {'voltage_extremes': (1, 2)}),
+     2.5, {'mean_hr_bpm': 24.0}, False),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, '1']],
+     2.5, {'mean_hr_bpm': 24.0}, True),
+    ({}, [[0, 1, 2, 3, 4, '5'], [1, 2, 1, 2, 1]],
+     2.5, {'mean_hr_bpm': 24.0}, True)
+])
+def test_find_mean_hr_bpm(metrics, data, interval, expected, detected):
+    try:
+        out = find_mean_hr_bpm(metrics, data, interval)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
+
+
+@pytest.mark.parametrize("metrics, data, expected, detected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]],
+     {'voltage_extremes': (1, 2)}, False),
     ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, 1]],
-     {'voltage_extremes': (1, 1)}),
-    ({}, [[0, 1, 2, 3, 4, 5], []], {'voltage_extremes': ()})
+     {'voltage_extremes': (1, 1)}, False),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1, '1']],
+     {'voltage_extremes': (1, 1)}, True),
+    ({}, [[0, 1, 2, 3, 4, 5], []], {'voltage_extremes': ()}, False)
 ])
-def test_find_voltage_extremes(metrics, data, expected):
-    assert find_voltage_extremes(metrics, data) == expected
+def test_find_voltage_extremes(metrics, data, expected, detected):
+    try:
+        out = find_voltage_extremes(metrics, data)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
 
 
-@pytest.mark.parametrize("metrics, data, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'num_beats': 2})
+@pytest.mark.parametrize("metrics, data, expected, detected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], {'num_beats': 2}, False),
+    ({}, [[0, 1, 2, 3, '4'], [1, 2, 1, 2, '1']], {'num_beats': 2}, True)
 ])
-def test_find_num_beats(metrics, data, expected):
-    assert find_num_beats(metrics, data) == expected
+def test_find_num_beats(metrics, data, expected, detected):
+    try:
+        out = find_num_beats(metrics, data)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
 
 
 @pytest.mark.parametrize("metrics, data, interval, expected", [
@@ -143,3 +219,14 @@ def test_find_num_beats(metrics, data, expected):
 ])
 def test_fill_metrics(metrics, data, interval, expected):
     assert fill_metrics(metrics, data, interval) == expected
+
+# if __name__ == "__main__":
+#     expected = [{}, [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]], 16]
+#     with open('abc.csv', 'w') as csvfile:
+#         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
+#                                 quoting=csv.QUOTE_MINIMAL)
+#         for i in range(len(expected[1][0])):
+#             filewriter.writerow([expected[1][0][i], expected[1][1][i]])
+#     csv_file = np.genfromtxt('abc.csv', delimiter=",", dtype=None)
+#     print(csv_file)
+#     print(len(csv_file.shape))
