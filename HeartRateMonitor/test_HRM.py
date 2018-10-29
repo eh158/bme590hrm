@@ -3,15 +3,22 @@ import csv
 from HRM import *
 
 
-@pytest.mark.parametrize("given,expected", [
-    ([0, 1, 0], 1),
-    ([-1, 1, -1], 1),
-    ([0, 0, 1, 0], 2)
+@pytest.mark.parametrize("given,expected, detected", [
+    ([0, 1, 0], 1, False),
+    ([-1, 1, -1], 1, False),
+    ([0, 0, 1, 0], 2, False),
+    ([0, 0, '1', 0], 2, True)
 ])
-def test_find_peaks(given, expected):
-    assert find_peaks(given) == expected
-    assert find_peaks([-2, 1, -2, -2, 0, -2])[0] == 1
-    assert find_peaks([-2, 1, -2, -2, 0, -2])[1] == 4
+def test_find_peaks(given, expected,detected):
+    try:
+        out = find_peaks(given)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
+    # assert find_peaks([-2, 1, -2, -2, 0, -2])[0] == 1
+    # assert find_peaks([-2, 1, -2, -2, 0, -2])[1] == 4
 
 
 @pytest.mark.parametrize("agiven,aexpected", [

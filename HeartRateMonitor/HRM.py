@@ -72,6 +72,9 @@ def find_mean_hr_bpm(metrics, data, time_interval):
 
 
 def find_peaks(voltages):
+    x = [i for i in voltages if isinstance(i, str)]
+    if len(x) > 0:
+        raise ValueError('String not expected')
     cb = np.array(voltages)
     indexes = peakutils.indexes(cb)
     return indexes
@@ -81,7 +84,7 @@ def process_file(filename):
     if not isinstance(filename, str):
         raise IOError('File not string')
     elif not os.path.isfile(filename):
-         raise OSError('File not found')
+        raise OSError('File not found')
     elif ".csv" not in filename:
         raise IOError('File not csv file')
     csv_file = np.genfromtxt(filename, delimiter=",")
