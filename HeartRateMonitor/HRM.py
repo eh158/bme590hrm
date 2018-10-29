@@ -103,7 +103,7 @@ def process_file(filename):
         raise OSError('File not found')
     elif ".csv" not in filename:
         raise IOError('File not csv file')
-    csv_file = np.genfromtxt(filename, delimiter=",")
+    csv_file = np.genfromtxt(filename, delimiter=",",dtype=None)
     # add checker for correct formatting, and raise exception otherwise
     if csv_file.shape[1] > 2:
         warn("Check if data is time and voltage columnwise")
@@ -112,8 +112,10 @@ def process_file(filename):
     times = []
     voltages = []
     for i in csv_file:
-        times.append(i[0])
-        voltages.append((i[1]))
+        if not isinstance(i[0], str):
+            times.append(i[0])
+        if not isinstance(i[1], str):
+            voltages.append((i[1]))
     return [times, voltages]
 
 
@@ -148,9 +150,9 @@ def get_file(my_file=None):
         if ".csv" in my_file:
             return my_file
         else:
-            sys.exit('File not a csv file')
+            sys.exit('File not csv file, exiting now.')
     else:
-        sys.exit('Filename not a string')
+        sys.exit('Filename not a string, exiting now')
 
 
 def process_output(metrics, filename):
@@ -208,7 +210,7 @@ def get_interval(interval=None):
 
 if __name__ == "__main__":
     # read in data from CSV file
-    my_file = get_file('test0.csv')
+    my_file = get_file('test0')
     # read in user input for interval
     interval = get_interval('20')
     u_input = gather_inputs(my_file, float(interval))
