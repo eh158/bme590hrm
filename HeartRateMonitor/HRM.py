@@ -59,6 +59,10 @@ def find_voltage_extremes(metrics, data):
 
 
 def find_mean_hr_bpm(metrics, data, time_interval):
+    x = [i for i in metrics[0] if isinstance(i, str)]
+    x = [i for i in metrics[1] if isinstance(i, str)]
+    if len(x) > 0 or len(y) > 0:
+        raise ValueError('String not expected')
     if time_interval > data[0][len(data[0]) - 1]:
         time_interval = data[0][len(data[0]) - 1]
     indexes = find_peaks(data[1])

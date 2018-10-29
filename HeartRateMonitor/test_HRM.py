@@ -9,7 +9,7 @@ from HRM import *
     ([0, 0, 1, 0], 2, False),
     ([0, 0, '1', 0], 2, True)
 ])
-def test_find_peaks(given, expected,detected):
+def test_find_peaks(given, expected, detected):
     try:
         out = find_peaks(given)
     except ValueError:
@@ -131,11 +131,18 @@ def test_gather_inputs(my_file, interval, expected, detected):
 
 
 @pytest.mark.parametrize("metrics, data, interval, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], 2.5, {'mean_hr_bpm': 24.0})
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]], 2.5, {'mean_hr_bpm': 24.0}, False),
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, '1']], 2.5, {'mean_hr_bpm': 24.0}, True),
+    ({}, [[0, 1, 2, 3, 4, '5'], [1, 2, 1, 2, 1]], 2.5, {'mean_hr_bpm': 24.0}, True)
 ])
 def test_find_mean_hr_bpm(metrics, data, interval, expected):
-    assert find_mean_hr_bpm(metrics, data, interval) == expected
-
+    try:
+        out = find_mean_hr_bpm(metrics, data, interval)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
 
 @pytest.mark.parametrize("metrics, data, expected", [
     ({}, [[0, 1, 2, 3, 4, 5], [1, 2, 1, 2, 1, 1]],
