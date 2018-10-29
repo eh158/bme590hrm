@@ -208,3 +208,15 @@ def test_find_num_beats(metrics, data, expected, detected):
 ])
 def test_fill_metrics(metrics, data, interval, expected):
     assert fill_metrics(metrics, data, interval) == expected
+
+
+# if __name__ == "__main__":
+#     expected = [[0, 1, 2, 3, 4], [1, 2, 1, 2, 1]]
+#     with open('abc.csv', 'w') as csvfile:
+#         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',
+#                                 quoting=csv.QUOTE_MINIMAL)
+#         for i in range(len(expected[0])):
+#             filewriter.writerow([expected[0][i], expected[1][i]])
+#     csv_file = np.genfromtxt('abc.csv', delimiter=",", dtype=None)
+#     print(csv_file)
+#     print(len(csv_file.shape))

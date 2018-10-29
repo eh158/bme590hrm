@@ -105,10 +105,13 @@ def process_file(filename):
         raise IOError('File not csv file')
     csv_file = np.genfromtxt(filename, delimiter=",", dtype=None)
     # add checker for correct formatting, and raise exception otherwise
-    if csv_file.shape[1] > 2:
-        warn("Check if data is time and voltage columnwise")
-    if csv_file.shape[1] < 2:
-        sys.exit("Insufficient data provided; both time and voltage needed.")
+    if len(csv_file.shape)>=2:
+        if csv_file.shape[1] > 2:
+            warn("Check if data is time and voltage columnwise")
+        if csv_file.shape[1] < 2:
+            sys.exit("Insufficient data provided; both time and voltage needed.")
+    else:
+        warn('Strings detected in data')
     times = []
     voltages = []
     for i in csv_file:
