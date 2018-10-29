@@ -57,17 +57,29 @@ def test_get_file(given, expected):
 #     assert pytest_wrapped_e.value.code == 1
 
 
-@pytest.mark.parametrize("metrics, data, expected", [
-    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1]], {'duration': 5 / 60}),
-    ({}, [[0, 1, 2, 3, 4, 5, 5], [1, 1, 1, 1, 1, 1]], {'duration': 5 / 60}),
-    ({}, [[0, 1, 2, 3, 4, 5, 6], [1, 1, 1, 1, 1, 1]], {'duration': 6 / 60}),
-    ({}, [[0, 1, 2, 3, 4], [1, 1, 1, 1, 1]], {'duration': 4 / 60}),
-    ({}, [[], []], {'duration': 0}),
-    ({}, [[-1, 0], [1]], {'duration': 1 / 60}),
-    ({}, [[-3, -2, -1], [1]], {'duration': 2 / 60}),
+@pytest.mark.parametrize("metrics, data, expected, detected", [
+    ({}, [[0, 1, 2, 3, 4, 5], [1, 1, 1, 1, 1]],
+     {'duration': 5 / 60}, False),
+    ({}, [[0, 1, 2, 3, 4, 5, 5], [1, 1, 1, 1, 1, 1]],
+     {'duration': 5 / 60}, False),
+    ({}, [[0, 1, 2, 3, 4, 5, 6], [1, 1, 1, 1, 1, 1]],
+     {'duration': 6 / 60}, False),
+    ({}, [[0, 1, 2, 3, 4], [1, 1, 1, 1, 1]],
+     {'duration': 4 / 60}, False),
+    ({}, [[], []], {'duration': 0}, False),
+    ({}, [[-1, 0], [1]], {'duration': 1 / 60}, False),
+    ({}, [[-3, -2, -1], [1]], {'duration': 2 / 60}, False),
+    ({}, [[0, 1, 2, 3, '4'], [1, 1, 1, 1, 1]],
+     {'duration': 4 / 60}, True),
 ])
-def test_find_duration(metrics, data, expected):
-    assert find_duration(metrics, data) == expected
+def test_find_duration(metrics, data, expected, detected):
+    try:
+        out = find_duration(metrics, data)
+    except ValueError:
+        assert detected is True
+    else:
+        assert detected is False
+        assert out == expected
 
 
 @pytest.mark.parametrize("metrics, data, expected, detected", [
@@ -83,6 +95,7 @@ def test_find_beats(metrics, data, expected, detected):
     else:
         assert detected is False
         assert out == expected
+
 
 @pytest.mark.parametrize("metrics, filename, f2, jn, expected, detected", [
     ({'beats': [1]}, 't.csv', 't.csv', 't.json', {'beats': [1]}, False),
